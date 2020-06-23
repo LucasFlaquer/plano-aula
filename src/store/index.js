@@ -1,29 +1,82 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from '../router'
+import userService from '../services/userService'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     user: {
-      email:'lucas.flaquer@gmail.com',
-      password:'123456',
-      name: 'Lucas Henrique',
-      token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTI0NDQ2NDUsIm5iZiI6MTU5MjQ0NDY0NSwianRpIjoiOGQ1OGI2MTAtYWUwYS00YWQwLTk1NGYtZjA3OTMzYjNmMjcyIiwiZXhwIjoxNTkyODc2NjQ1LCJpZGVudGl0eSI6IjVlZTk3NGViY2UxYTg3NjE2ZGZkZmRkYiIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.1_iQpb4HRqGevPYqb2Sp8XDqPBxsQ7qdPbu-Xsgmaw4'
+      email:'',
+      name: '',
     },
+    userStatus:false,
+    userRequest:'nothing',
     count:0
   },
   mutations: {
-    increment(state) {
-      state.count++
+    SET_USER_REQUEST(state, req) {
+      state.userRequest = req
+    },
+    SET_USER_STATUS(state, status) {
+      state.userStatus = status
+    },
+    SET_USER_DATA(state, user) {
+      //set user from login
+      state.user = {
+        email: user.logged_in_as,
+        name: user.name
+      }
     }
   },
   actions: {
+    async makeLogin({ commit }, user) {
+      try {
+        commit('SET_USER_STATUS', true)
+        const response = await userService.login(user)
+        const { access_token:token } = response
+        commit('SET_USER_DATA', response)
+        commit('SET_USER_STATUS', false)
+        localStorage.setItem('token', token)
+        router.push({name:'Home'})
+
+      } catch (error) {
+        console.warn('ERRO:', error.response)
+        return false
+      }
+      // const response = await userService.login(user)
+      // console.log(response)
+    },
+    async fetchUser({ commit }) {
+      const token = localStorage.getItem('token')
+      
+      if(token) {
+        try {
+          const auth = await userService.me(token)
+          const { email, name } = auth
+          commit('SET_USER_DATA', { email, name })
+        } catch (error) {
+          console.warn(error.response)
+          if(error.response.status === 403)
+            //token invalido
+            router.push({name:'Login'})
+
+        }
+      } else {
+        router.push({name:'Login'})
+      }
+    },
+    logout() {
+      localStorage.removeItem('token')
+      router.push({name:'Login'})
+    }
   },
   getters: {
     getUserToken: state=> {
       return state.user.token
     }
+    
   },
   modules: {
   }

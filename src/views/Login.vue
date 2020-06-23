@@ -1,8 +1,8 @@
 <template>
   <div class="login">
-    <div class="login--body">
+    <div class="login--body" :class="userState ? 'sending': ''">
       <h1>Gerenciamento de Plano de Aula</h1>
-      <form action="">
+      <form @submit.prevent="submit" class="form" >
         <div class="form-group">
           <!-- <label for="">E-mail</label> -->
           <input class="form-control" type="email" placeholder="E-mail" v-model="user.email" required>
@@ -19,15 +19,29 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
   export default {
     name: 'Login',
     data() {
       return {
         user: {
-          email:'',
-          password:''
-        }
+          email:'lucas.teste@teste.com',
+          password:'123456'
+        },
+        sending:false
       }
+    },
+    methods: {
+      async submit() {
+        this.sending=true
+        await this.makeLogin(this.user)
+        console.log('------- retorno da action para a view -----')
+        //console.log(userState)
+      },
+      ...mapActions(['makeLogin'])
+    },
+    computed: {
+      ...mapState({userState: state => state.userState})
     }
   }
 </script>
@@ -76,6 +90,20 @@
     }
     &--subscribe {
       font-size: 12px;
+    }
+    .sending {
+      position: relative;
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: #272727;
+        opacity: .6;
+        z-index: 3;
+      }
     }
   }
 </style>

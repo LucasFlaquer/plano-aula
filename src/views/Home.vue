@@ -1,31 +1,36 @@
 <template>
-  <div class="home">
+  <Dashboard>
+    <p>hahahahah</p>
+  </Dashboard>
+  <!-- <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <p>{{count}}</p>
-    <HelloWorld :msg="msg"/>
-  </div>
+    
+  </div> -->
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import { mapState } from 'vuex';
+// import HelloWorld from '@/components/HelloWorld.vue'
+import Dashboard from '@/components/Dashboard.vue'
+import { mapActions } from 'vuex';
 export default {
   name: 'Home',
-  data() {
-    return {
-      msg:'quero peidar'
-    }
+  computed: {
+    // token() {
+      //   return this.$store.state.user.token
+    // },
+    // ...mapState(['count'])
+  },
+  methods: {
+    ...mapActions(['fetchUser'])
+  },
+  created() {
+    //buscar pelo usuario
+    this.fetchUser()
+    
   },
   components: {
-    HelloWorld
+    Dashboard
   },
-  computed: {
-    couneet() {
-      return this.$store.state.count
-    },
-    ...mapState(['count'])
-
-  }
 }
 </script>
