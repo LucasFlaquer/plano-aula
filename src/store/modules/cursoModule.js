@@ -1,4 +1,5 @@
 import api from '../../services/api'
+import router from '../../router/index'
 
 export const namespaced = true
 
@@ -34,6 +35,8 @@ export const actions = {
       commit('SET_CURSOS', response.data)
     }).catch(error=> {
       console.warn(error)
+      if(error.response.status == 403 || error.response.status === 401)
+      router.push({name:'Login'})
     })
   }
 }

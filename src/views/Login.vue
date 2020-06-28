@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div class="login--body" :class="userState ? 'sending': ''">
+    <div class="login--body" :class="sending ? 'sending': ''">
       <h1>Gerenciamento de Plano de Aula</h1>
       <form @submit.prevent="submit" class="form" >
         <div class="form-group">
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
   export default {
     name: 'Login',
     data() {
@@ -34,15 +34,12 @@ import { mapActions, mapState } from 'vuex'
     methods: {
       async submit() {
         this.sending=true
-        await this.makeLogin(this.user)
+        await this.$store.dispatch('userModule/makeLogin', this.user);
         console.log('------- retorno da action para a view -----')
         //console.log(userState)
       },
-      ...mapActions(['makeLogin'])
+      ...mapActions(['userModule/makeLogin'])
     },
-    computed: {
-      ...mapState({userState: state => state.userState})
-    }
   }
 </script>
 

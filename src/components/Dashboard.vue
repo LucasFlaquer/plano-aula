@@ -29,13 +29,18 @@ import { mapState, mapActions } from "vuex";
   export default {
     name:'Dashboard',
     computed:mapState({
-      user: state=> state.user
+      user: state=> state.userModule.userLogged
     }),
     methods: {
-      ...mapActions(['logout', 'fetchUser'])
+      ...mapActions({
+        logout: 'userModule/logout',
+        Authenticate:'userModule/Authenticate'
+      })
     },
     created() {
-      this.fetchUser()
+
+      this.Authenticate()
+      console.log(this.user)
     }
   }
 </script>
@@ -45,6 +50,7 @@ import { mapState, mapActions } from "vuex";
     display: flex;
     height: 100vh;
     overflow: hidden;
+    
     &--header {
       background-color: #0098b7;
       color: #fff;
@@ -56,6 +62,7 @@ import { mapState, mapActions } from "vuex";
     }
     &--body {
       flex: 1 0 0;
+      padding-top: 50px;
       background-color: #fff;
     }
   }
