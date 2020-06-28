@@ -9,6 +9,9 @@
           <li class="sidenav--item">
             <router-link class="btn btn-dark" :to="{name:'Home'}">Home</router-link>
           </li>
+          <li class="sidenav--item">
+            <router-link class="btn btn-dark" :to="{name:'ListagemCursos'}">Cursos</router-link>
+          </li>
         </ul>
       </nav>
       <p><a href="#'" class="btn btn-danger" @click.prevent="logout">Sair</a></p>
@@ -29,12 +32,15 @@ import { mapState, mapActions } from "vuex";
       user: state=> state.user
     }),
     methods: {
-      ...mapActions(['logout'])
+      ...mapActions(['logout', 'fetchUser'])
+    },
+    created() {
+      this.fetchUser()
     }
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .dashboard {
     display: flex;
     height: 100vh;
@@ -62,6 +68,9 @@ import { mapState, mapActions } from "vuex";
     &--list {
       list-style: none;
       padding-left: 0;
+      li {
+        margin-bottom: 15px;
+      }
       
     }
     &--item {

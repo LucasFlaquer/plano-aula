@@ -2,15 +2,16 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../router'
 import userService from '../services/userService'
+import api from '../services/api'
+
+import * as cursoModule from '@/store/modules/cursoModule'
+
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: {
-      email:'',
-      name: '',
-    },
+    user: {},
     userStatus:false,
     userRequest:'nothing',
     count:0
@@ -24,10 +25,7 @@ export default new Vuex.Store({
     },
     SET_USER_DATA(state, user) {
       //set user from login
-      state.user = {
-        email: user.logged_in_as,
-        name: user.name
-      }
+      state.user = user
     }
   },
   actions: {
@@ -50,16 +48,23 @@ export default new Vuex.Store({
     },
     async fetchUser({ commit }) {
       const token = localStorage.getItem('token')
+      console.log('peguei o token:', typeof token)
       
-      if(token) {
+      if(token && token !== 'undefined') {
         try {
-          const auth = await userService.me(token)
-          const { email, name } = auth
-          commit('SET_USER_DATA', { email, name })
+          const auth = await api.get('/users/me', {
+            headers: {
+              Authorization: 'Bearer ' + token
+            }
+          })
+          
+          commit('SET_USER_DATA', auth.data)
         } catch (error) {
-          console.warn(error.response)
-          if(error.response.status === 403)
+          console.warn('------------------------------------------',error.response)
+          if(error.response.status === 403 || error.response.status === 401)
             //token invalido
+            console.warn('TOKEN INVALIDO')
+            localStorage.removeItem('token')
             router.push({name:'Login'})
 
         }
@@ -79,5 +84,6 @@ export default new Vuex.Store({
     
   },
   modules: {
+    cursoModule
   }
 })
