@@ -21,10 +21,18 @@ export const mutations = {
 }
 
 export const actions = {
-  // createCurso({commit, dispatch, getters}, curso) {
-  //   //já é para ter passado pela validação do formulario
-    
-  // }
+  addNewCurso({commit}, data) {
+    api.post('/cursos', data, {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    }).then(response=> {
+      commit('ADD_CURSO', response.data)
+      router.push({name:'ListagemCursos'})
+    }).catch(error => {
+      console.warn(error)
+    })
+  },
   fetchCursos({commit}) {
     api.get('/cursos', {
       headers: {
@@ -38,9 +46,29 @@ export const actions = {
       if(error.response.status == 403 || error.response.status === 401)
       router.push({name:'Login'})
     })
+  },
+  fetchCurso({ commit, getters }, id) {
+    const curso = getters.getCursoById(id)
+    if(curso) {
+      commit('SET_CURSO', curso)
+    } else {
+      api.get(`/cursos/${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }).then(response=> {
+        commit('SET_CURSO', response.data)
+      }).catch(error=> {
+        console.warn(error)
+        if(error.response.status == 403 || error.response.status === 401)
+          router.push({name:'Login'})
+      })
+    }
   }
 }
 
 export const getters = {
-
+  getCursoById: state => id => {
+    return state.cursos.find(curso => curso.id === id)
+  }
 }

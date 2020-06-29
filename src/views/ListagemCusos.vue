@@ -2,7 +2,7 @@
   <Dashboard>
     <h1>Listagema de Cursos</h1>
     <p class="text-right">
-      <b-button v-b-modal.modal-curso variant="primary" >Adicionar Curso</b-button>
+      <b-button v-b-modal.modal-curso variant="primary" @click="handleFormOpen('')">Adicionar Curso</b-button>
     </p>
     <table class="table table-striped">
       <thead>
@@ -19,15 +19,17 @@
           <td>{{curso.turno}}</td>
           <td>{{curso.coordenador ? curso.coordenador.nome : 'Sem Coordenador' }}</td>
           <td>
-            <a href="#" class="btn btn-primary">Editar</a>
+            <b-button v-b-modal.modal-curso @click="handleFormOpen(curso.id)" >Editar</b-button>
             <a href="#" class="btn btn-danger">Deletar</a>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <b-modal id="modal-curso" :title="modalTitle">
-      <FormCurso/>
+    <b-modal id="modal-curso" :title="modalTitle" hide-footer>
+      <FormCurso
+        :cursoId="idCursoSelecionado"
+      />
     </b-modal>
 
   </Dashboard>
@@ -41,7 +43,8 @@
     name: 'ListCursos',
     data() {
       return {
-        modalTitle: 'Adicionar Curso'
+        modalTitle: 'Adicionar Curso',
+        idCursoSelecionado:''
       }
     },
     created() {
@@ -53,7 +56,15 @@
       }),
     },
     methods: {
-      ...mapActions(['cursoModule/fetchCursos'])
+      ...mapActions(['cursoModule/fetchCursos']),
+      handleFormOpen(id) {
+        this.idCursoSelecionado = id
+        if(id.length > 1)
+          this.modalTitle = 'Editar Curso'
+        else
+          this.modalTitle = 'Adicionar Curso'
+      }
+
     },
     components: {
       Dashboard,
