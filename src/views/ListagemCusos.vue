@@ -20,7 +20,7 @@
           <td>{{curso.coordenador ? curso.coordenador.nome : 'Sem Coordenador' }}</td>
           <td>
             <b-button v-b-modal.modal-curso @click="handleFormOpen(curso.id)" >Editar</b-button>
-            <a href="#" class="btn btn-danger">Deletar</a>
+            <a href="#" class="btn btn-danger" @click="deleteCurso(curso.id)">Deletar</a>
           </td>
         </tr>
       </tbody>
@@ -56,7 +56,9 @@
       }),
     },
     methods: {
-      ...mapActions(['cursoModule/fetchCursos']),
+      ...mapActions({
+        deleteCurso: 'cursoModule/deleteCurso'
+      }),
       handleFormOpen(id) {
         this.idCursoSelecionado = id
         if(id.length > 1)

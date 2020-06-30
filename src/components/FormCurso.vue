@@ -61,7 +61,8 @@
       ...mapActions({
         getAllUsers: 'userModule/fetchUsers',
         fetchCurso: 'cursoModule/fetchCurso',
-        addCurso: 'cursoModule/addNewCurso'
+        addCurso: 'cursoModule/addNewCurso',
+        updateCurso:'cursoModule/updateCurso'
 
       }),
       submit() {
@@ -72,7 +73,14 @@
           this.validaForm(form)
       },
       send() {
-        this.addCurso({ nome:this.nome, turno:this.turno, user_id:this.user_id })
+        if(this.cursoId.length>1)
+          this.updateCurso({
+            curso:{ nome:this.nome, turno:this.turno, user_id:this.user_id }, 
+            id:this.cursoId
+          })
+        else
+          this.addCurso({ nome:this.nome, turno:this.turno, user_id:this.user_id })
+        
         this.$bvModal.hide('modal-curso')
       },
       validaForm(form) {

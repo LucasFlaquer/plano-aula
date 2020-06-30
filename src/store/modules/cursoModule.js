@@ -28,9 +28,52 @@ export const actions = {
       }
     }).then(response=> {
       commit('ADD_CURSO', response.data)
-      router.push({name:'ListagemCursos'})
     }).catch(error => {
       console.warn(error)
+    })
+  },
+  async updateCurso({commit, getters}, {curso, id}) {
+    console.log(id)
+    try {
+      const response = await api.put(`/cursos/${id}`, curso, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      })
+      const cursos = getters.getCursos
+      console.log(cursos)
+      const newCursos = cursos.map(curso=>{
+        if(curso.id == response.data.id) {
+          console.log(response.data)
+          return {
+            id:response.data.id,
+            nome:response.data.nome,
+            turno:response.data.turno,
+            coordenador:response.data.coordenador
+          }
+        } else {
+          console.log(curso)
+          return curso
+        }
+      })
+      commit('SET_CURSOS', newCursos)
+    } catch (error) {
+      console.warn(error)
+      if(error.response.status === 403 || error.response.status === 401)
+        router.push({name:'Login'})
+    }
+  },
+  async deleteCurso({commit, getters}, id) {
+    api.delete(`/cursos/${id}`, {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    }).then(response => {
+      const cursos = getters.getCursos
+      commit('SET_CURSOS', cursos.filter(curso=> curso.id !== id))
+    }).catch(error=> {
+      if(error.response.status === 403 || error.response.status === 401)
+        router.push({name:'Login'})
     })
   },
   fetchCursos({commit}) {
@@ -44,7 +87,7 @@ export const actions = {
     }).catch(error=> {
       console.warn(error)
       if(error.response.status == 403 || error.response.status === 401)
-      router.push({name:'Login'})
+        router.push({name:'Login'})
     })
   },
   fetchCurso({ commit, getters }, id) {
@@ -68,6 +111,9 @@ export const actions = {
 }
 
 export const getters = {
+  getCursos: state => {
+    return state.cursos
+  },
   getCursoById: state => id => {
     return state.cursos.find(curso => curso.id === id)
   }
