@@ -6,24 +6,26 @@ import Vuex from 'vuex'
 
 import * as cursoModule from '@/store/modules/cursoModule'
 import * as userModule from '@/store/modules/userModule'
+import * as disciplinaModule from '@/store/modules/disciplinaModule'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    
+
   },
   mutations: {
-    
+
   },
   actions: {
-    
+
   },
   getters: {
-    
+
   },
   modules: {
     cursoModule,
-    userModule
+    userModule,
+    disciplinaModule
   }
 })

@@ -4,8 +4,8 @@ import router from '../../router/index'
 export const namespaced = true
 
 export const state = {
-  cursos:[],
-  curso:{}
+  cursos: [],
+  curso: {}
 }
 
 export const mutations = {
@@ -21,18 +21,26 @@ export const mutations = {
 }
 
 export const actions = {
-  addNewCurso({commit}, data) {
+  addNewCurso({
+    commit
+  }, data) {
     api.post('/cursos', data, {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
-    }).then(response=> {
+    }).then(response => {
       commit('ADD_CURSO', response.data)
     }).catch(error => {
       console.warn(error)
     })
   },
-  async updateCurso({commit, getters}, {curso, id}) {
+  async updateCurso({
+    commit,
+    getters
+  }, {
+    curso,
+    id
+  }) {
     console.log(id)
     try {
       const response = await api.put(`/cursos/${id}`, curso, {
@@ -42,14 +50,14 @@ export const actions = {
       })
       const cursos = getters.getCursos
       console.log(cursos)
-      const newCursos = cursos.map(curso=>{
-        if(curso.id == response.data.id) {
+      const newCursos = cursos.map(curso => {
+        if (curso.id == response.data.id) {
           console.log(response.data)
           return {
-            id:response.data.id,
-            nome:response.data.nome,
-            turno:response.data.turno,
-            coordenador:response.data.coordenador
+            id: response.data.id,
+            nome: response.data.nome,
+            turno: response.data.turno,
+            coordenador: response.data.coordenador
           }
         } else {
           console.log(curso)
@@ -59,52 +67,68 @@ export const actions = {
       commit('SET_CURSOS', newCursos)
     } catch (error) {
       console.warn(error)
-      if(error.response.status === 403 || error.response.status === 401)
-        router.push({name:'Login'})
+      if (error.response.status === 403 || error.response.status === 401)
+        router.push({
+          name: 'Login'
+        })
     }
   },
-  async deleteCurso({commit, getters}, id) {
+  async deleteCurso({
+    commit,
+    getters
+  }, id) {
     api.delete(`/cursos/${id}`, {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
     }).then(response => {
       const cursos = getters.getCursos
-      commit('SET_CURSOS', cursos.filter(curso=> curso.id !== id))
-    }).catch(error=> {
-      if(error.response.status === 403 || error.response.status === 401)
-        router.push({name:'Login'})
+      commit('SET_CURSOS', cursos.filter(curso => curso.id !== id))
+    }).catch(error => {
+      if (error.response.status === 403 || error.response.status === 401)
+        router.push({
+          name: 'Login'
+        })
     })
   },
-  fetchCursos({commit}) {
+  fetchCursos({
+    commit
+  }) {
     api.get('/cursos', {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
-    }).then(response=> {
+    }).then(response => {
       console.log(response.data)
       commit('SET_CURSOS', response.data)
-    }).catch(error=> {
+    }).catch(error => {
       console.warn(error)
-      if(error.response.status == 403 || error.response.status === 401)
-        router.push({name:'Login'})
+      if (error.response.status == 403 || error.response.status === 401)
+        router.push({
+          name: 'Login'
+        })
     })
   },
-  fetchCurso({ commit, getters }, id) {
+  fetchCurso({
+    commit,
+    getters
+  }, id) {
     const curso = getters.getCursoById(id)
-    if(curso) {
+    if (curso) {
       commit('SET_CURSO', curso)
     } else {
       api.get(`/cursos/${id}`, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
-      }).then(response=> {
+      }).then(response => {
         commit('SET_CURSO', response.data)
-      }).catch(error=> {
+      }).catch(error => {
         console.warn(error)
-        if(error.response.status == 403 || error.response.status === 401)
-          router.push({name:'Login'})
+        if (error.response.status == 403 || error.response.status === 401)
+          router.push({
+            name: 'Login'
+          })
       })
     }
   }

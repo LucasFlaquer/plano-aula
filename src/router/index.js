@@ -3,12 +3,11 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import ListagemCursos from '../views/ListagemCusos.vue'
-
+import ListagemDisciplinas from '@/views/ListagemDisciplinas'
 
 Vue.use(VueRouter)
 
-  const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'Home',
     component: Home
@@ -22,6 +21,11 @@ Vue.use(VueRouter)
     path: '/cursos',
     name: 'ListagemCursos',
     component: ListagemCursos
+  },
+  {
+    path: '/disciplinas',
+    name: 'ListagemDisciplinas',
+    component: ListagemDisciplinas
   }
 ]
 
