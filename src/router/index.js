@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import ListagemCursos from '../views/ListagemCusos.vue'
 import ListagemDisciplinas from '@/views/ListagemDisciplinas'
+import ListagemBibliografias from '@/views/ListagemBibliografias'
 
 Vue.use(VueRouter)
 
@@ -26,7 +27,8 @@ const routes = [{
     path: '/disciplinas',
     name: 'ListagemDisciplinas',
     component: ListagemDisciplinas
-  }
+  },
+  { path: '/bibliografias', name: 'ListagemBibliografias', component: ListagemBibliografias }
 ]
 
 const router = new VueRouter({

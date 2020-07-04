@@ -7,7 +7,7 @@ import Vuex from 'vuex'
 import * as cursoModule from '@/store/modules/cursoModule'
 import * as userModule from '@/store/modules/userModule'
 import * as disciplinaModule from '@/store/modules/disciplinaModule'
-
+import * as bibliografiaModule from '@/store/modules/bibliografiaModule'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -26,6 +26,7 @@ export default new Vuex.Store({
   modules: {
     cursoModule,
     userModule,
-    disciplinaModule
+    disciplinaModule,
+    bibliografiaModule
   }
 })
