@@ -6,3 +6,15 @@
     background-color: #464343;
   }
 }
+.table {
+  th,
+  td {
+    text-align: center;
+  }
+}
+
+.form {
+  .required {
+    border-color: red;
+  }
+}
