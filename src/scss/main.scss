@@ -18,4 +18,28 @@
   .required {
     border-color: red;
   }
+  textarea {
+    resize: vertical;
+  }
+  .list {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 5px;
+    min-height: 160px;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #58a8d6;
+    list-style: circle;
+    color: #fff;
+    font-size: 18px;
+    li {
+      margin-bottom: 10px;
+    }
+
+    &--form {
+      .btn {
+        margin-top: 15px;
+      }
+    }
+  }
 }

@@ -21,6 +21,9 @@
           <li class="sidenav--item">
             <router-link class="btn btn-dark" :to="{name:'ListagemBibliografias'}">Bibliografias</router-link>
           </li>
+          <li class="sidenav--item">
+            <router-link class="btn btn-dark" :to="{name:'AddDisciplina'}">Disciplinas</router-link>
+          </li>
         </ul>
       </nav>
       <p>

@@ -40,7 +40,30 @@
     </fieldset>
     <fieldset>
       <legend>Ementa</legend>
-      
+      <div class="row">
+        <div class="col-12 form-group">
+          <label for="descricao">Descricao</label>
+          <textarea name="descricao" id="descricao" cols="30" rows="10" class="form-control"></textarea>
+        </div>
+        <div class="col-4">
+          <h3>Competencias</h3>
+          <div class="form-group list--form">
+            <label for="competencia">adicionar nova</label>
+            <input class="form-control" type="text" name="competencia" id="competencia" v-model="competencia">
+            <b-button @click.prevent="addCompetencia">Adicionar Competencia</b-button>
+          </div>
+          <ul class="list">
+            <li v-for="(item, index) in competenciaList" :key="index">{{item}}
+              <span class="fa fa-facebook"></span>
+            </li>
+          </ul>
+
+
+        </div>
+        <div class="col-6">
+
+        </div>
+      </div>
     </fieldset>
     <fieldset>
       <legend>Bibliografias</legend>
@@ -68,6 +91,14 @@
         pratica: 0,
         teoria: 0,
         semestre: 0,
+        conteudoList:[],
+        conteudo:'',
+        competenciaList:[],
+        competencia: '',
+        objetivoList:[],
+        objetivo:'',
+
+
         value: [],
         options: [
           { name: 'Vue.js', language: 'JavaScript' },
@@ -78,6 +109,21 @@
           { name: 'Phoenix', language: 'Elixir' }
         ]
       }
+    },
+    methods: {
+      addConteudo() {
+        this.conteudoList.push(this.conteudo)
+        this.conteudo = ''
+      },
+      addCompetencia() {
+        //adicionar validacao
+        this.competenciaList.push(this.competencia)
+        this.competencia = ''
+      },
+      addObjetivo() {
+        this.objetivoList.push(this.objetivo)
+        this.objetivo = ''
+      },
     },
     components: {
       Multiselect,

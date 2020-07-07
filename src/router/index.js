@@ -30,7 +30,7 @@ const routes = [{
     component: ListagemDisciplinas
   },
   { path: '/bibliografias', name: 'ListagemBibliografias', component: ListagemBibliografias },
-  {path:'/disciplinas/nova', name: 'FormDisciplina', component:AddDisciplina }
+  {path:'/disciplinas/nova', name: 'AddDisciplina', component:AddDisciplina }
 ]
 
 const router = new VueRouter({
