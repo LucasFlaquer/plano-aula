@@ -74,6 +74,7 @@ export default {
     flex: 1 0 0;
     padding-top: 50px;
     background-color: #fff;
+    overflow-y: auto;
   }
 }
 .sidenav {

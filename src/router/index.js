@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import ListagemCursos from '../views/ListagemCusos.vue'
 import ListagemDisciplinas from '@/views/ListagemDisciplinas'
 import ListagemBibliografias from '@/views/ListagemBibliografias'
+import AddDisciplina from '@/views/AddDisciplina'
 
 Vue.use(VueRouter)
 
@@ -28,7 +29,8 @@ const routes = [{
     name: 'ListagemDisciplinas',
     component: ListagemDisciplinas
   },
-  { path: '/bibliografias', name: 'ListagemBibliografias', component: ListagemBibliografias }
+  { path: '/bibliografias', name: 'ListagemBibliografias', component: ListagemBibliografias },
+  {path:'/disciplinas/nova', name: 'FormDisciplina', component:AddDisciplina }
 ]
 
 const router = new VueRouter({
