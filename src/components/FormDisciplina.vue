@@ -46,22 +46,16 @@
           <textarea name="descricao" id="descricao" cols="30" rows="10" class="form-control"></textarea>
         </div>
         <div class="col-4">
-          <h3>Competencias</h3>
-          <div class="form-group list--form">
-            <label for="competencia">adicionar nova</label>
-            <input class="form-control" type="text" name="competencia" id="competencia" v-model="competencia">
-            <b-button @click.prevent="addCompetencia">Adicionar Competencia</b-button>
-          </div>
-          <ul class="list">
-            <li v-for="(item, index) in competenciaList" :key="index">{{item}}
-              <span class="fa fa-facebook"></span>
-            </li>
-          </ul>
-
-
+          <h3>Conteúdo</h3>
+          <list-control list_name="conteudo" @updateList="updateList"/>
         </div>
-        <div class="col-6">
-
+        <div class="col-4">
+          <h3>Competencias</h3>
+          <list-control list_name="competencias"  @updateList="updateList"/>
+        </div>
+        <div class="col-4">
+          <h3>Objetivos</h3>
+          <list-control list_name="objetivos" @updateList="updateList"/>
         </div>
       </div>
     </fieldset>
@@ -81,6 +75,7 @@
 </template>
 
 <script>
+  import ListControl from '@/components/ListControl'
   import Multiselect from 'vue-multiselect'
   import 'vue-multiselect/dist/vue-multiselect.min.css'
   export default {
@@ -91,14 +86,9 @@
         pratica: 0,
         teoria: 0,
         semestre: 0,
-        conteudoList:[],
-        conteudo:'',
-        competenciaList:[],
-        competencia: '',
-        objetivoList:[],
-        objetivo:'',
-
-
+        conteudo:[],
+        competencias:[],
+        objetivos:[],
         value: [],
         options: [
           { name: 'Vue.js', language: 'JavaScript' },
@@ -111,22 +101,15 @@
       }
     },
     methods: {
-      addConteudo() {
-        this.conteudoList.push(this.conteudo)
-        this.conteudo = ''
-      },
-      addCompetencia() {
-        //adicionar validacao
-        this.competenciaList.push(this.competencia)
-        this.competencia = ''
-      },
-      addObjetivo() {
-        this.objetivoList.push(this.objetivo)
-        this.objetivo = ''
-      },
+      updateList(data) {
+        console.log('atualizei lista')
+        console.log(data)
+        this[data.list_name] = data.items.map(item=>item)
+      }
     },
     components: {
       Multiselect,
+      ListControl
     },
   }
 </script>
