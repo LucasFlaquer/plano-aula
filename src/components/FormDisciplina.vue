@@ -61,20 +61,63 @@
     </fieldset>
     <fieldset>
       <legend>Bibliografias</legend>
-      <div class="form-group">
-        <label class="typo__label">Simple select / dropdown</label>
-        <multiselect v-model="value" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Pick some" label="name" track-by="name" :preselect-first="true">
-          <template slot="selection" slot-scope="{ values, search, isOpen }">
-            <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} options selected</span>
-          </template>
-        </multiselect>
-        <pre class="language-json"><code>{{ value  }}</code></pre>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label class="typo__label">Básica</label>
+            <multiselect 
+              v-model="basica" 
+              :options="bibliografias" 
+              :multiple="true" 
+              :close-on-select="false" 
+              :clear-on-select="false" 
+              :preserve-search="true" placeholder="Selecione as bibliografias básicas" 
+              label="nome" track-by="nome"
+              >
+              <template slot="selection" slot-scope="{ values, search, isOpen }">
+                <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} bibliografias selecionadas</span>
+              </template>
+            </multiselect>
+            <p class="mt-3"><strong>Selecionados</strong></p>
+            <ul class="list">
+              <li v-for="bibliografia in basica" :key="bibliografia.id">
+                <label for="">{{bibliografia.nome}}</label>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label class="typo__label">Complementar</label>
+            <multiselect 
+              v-model="complementar" 
+              :options="bibliografias" 
+              :multiple="true" 
+              :close-on-select="false" 
+              :clear-on-select="false" 
+              :preserve-search="true" placeholder="Selecione as bibliografias Complementares" 
+              label="nome" track-by="nome"
+              >
+              <template slot="selection" slot-scope="{ values, search, isOpen }">
+                <span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} bibliografias selecionadas</span>
+              </template>
+            </multiselect>
+            <p class="mt-3"><strong>Selecionados</strong></p>
+            <ul class="list">
+              <li v-for="bibliografia in basica" :key="bibliografia.id">
+                <label for="">{{bibliografia.nome}}</label>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </fieldset>
+    <b-button variant="primary">Enviar</b-button>
   </form>
 </template>
 
 <script>
+  import { mapActions, mapState } from 'vuex'
   import ListControl from '@/components/ListControl'
   import Multiselect from 'vue-multiselect'
   import 'vue-multiselect/dist/vue-multiselect.min.css'
@@ -89,15 +132,9 @@
         conteudo:[],
         competencias:[],
         objetivos:[],
-        value: [],
-        options: [
-          { name: 'Vue.js', language: 'JavaScript' },
-          { name: 'Adonis', language: 'JavaScript' },
-          { name: 'Rails', language: 'Ruby' },
-          { name: 'Sinatra', language: 'Ruby' },
-          { name: 'Laravel', language: 'PHP' },
-          { name: 'Phoenix', language: 'Elixir' }
-        ]
+        basica:[],
+        complementar: [],
+
       }
     },
     methods: {
@@ -105,7 +142,19 @@
         console.log('atualizei lista')
         console.log(data)
         this[data.list_name] = data.items.map(item=>item)
-      }
+      },
+      ...mapActions({
+        fetchBibliografias: 'bibliografiaModule/fetchAll'
+      })
+    },
+    computed: {
+      ...mapState({
+        bibliografias: state=> state.bibliografiaModule.bibliografias
+      })
+    },
+    created () {
+      this.fetchBibliografias()
+
     },
     components: {
       Multiselect,

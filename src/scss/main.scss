@@ -15,11 +15,16 @@
 }
 
 .form {
+  padding-bottom: 50px;
+  
   .required {
     border-color: red;
   }
   textarea {
     resize: vertical;
+  }
+  fieldset {
+    margin-top: 50px;
   }
   
 }

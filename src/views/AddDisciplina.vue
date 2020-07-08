@@ -22,6 +22,6 @@ import Dashboard from '@/components/Dashboard'
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 </style>
