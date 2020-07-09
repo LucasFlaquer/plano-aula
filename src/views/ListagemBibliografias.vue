@@ -35,7 +35,7 @@
       <form-bibliografias
         :bibliografiaId="idBibliografia"
         :inModal="true"
-        @closeModal="this.$bvModal.hide('modal-curso')"
+        @closeModal="this.$bvModal.hide('modal-bibliografia')"
       />
     </b-modal>
   </Dashboard>

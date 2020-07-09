@@ -1,15 +1,15 @@
 <template>
-  <form class="form" ref="form" novalidate>
+  <form class="form" ref="form" novalidate @submit.prevent="submit">
     <fieldset>
       <legend>Disciplina</legend>
       <div class="form-row">
         <div class="form-group col-8">
           <label for="nome">Nome da Disciplina</label>
-          <input type="text" id="nome" required class="form-control" v-model="nome">
+          <input type="text" id="nome" class="form-control" v-model="nome" required>
         </div>
         <div class="form-group col-4">
           <label for="semestre">Semestre</label>
-          <select class="form-control" name="semestre" id="semestre" v-model="semestre">
+          <select class="form-control" name="semestre" id="semestre" v-model="semestre" required>
             <option value="0">Selecione</option>
             <option v-for="n in 10" :key="n" :value="n">
               {{n}}
@@ -18,7 +18,7 @@
         </div>
         <div class="form-group col-4">
           <label for="teoria">Carga Horária Teoria</label>
-          <select class="form-control" name="teoria" id="">
+          <select class="form-control" name="teoria" id="" v-model="teoria" required>
             <option value="">Selecione</option>
             <option value="0">00</option>
             <option value="20">20</option>
@@ -28,7 +28,7 @@
         </div>
         <div class="form-group col-4">
           <label for="pratica">Carga Horária Pratica</label>
-          <select class="form-control" name="pratica" id="">
+          <select class="form-control" name="pratica" v-model="pratica" required>
             <option value="">Selecione</option>
             <option value="0">00</option>
             <option value="20">20</option>
@@ -104,7 +104,7 @@
             </multiselect>
             <p class="mt-3"><strong>Selecionados</strong></p>
             <ul class="list">
-              <li v-for="bibliografia in basica" :key="bibliografia.id">
+              <li v-for="bibliografia in complementar" :key="bibliografia.id">
                 <label for="">{{bibliografia.nome}}</label>
               </li>
             </ul>
@@ -117,10 +117,11 @@
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex'
   import ListControl from '@/components/ListControl'
   import Multiselect from 'vue-multiselect'
   import 'vue-multiselect/dist/vue-multiselect.min.css'
+  import { mapActions, mapState } from 'vuex'
+  import validaForm from '../functions/validaForm'
   export default {
     name: 'FormDisciplina',
     data() {
@@ -138,6 +139,23 @@
       }
     },
     methods: {
+      submit() {
+        const form = this.$refs.form
+        if(form.checkValidity())
+          this.send()
+        else
+          validaForm(form)
+      },
+      send(){
+        //add Disciplina
+        const data = {
+          nome: this.nome,
+          teoria: this.teoria,
+          pratica: this.pratica,
+
+
+        }
+      },
       updateList(data) {
         console.log('atualizei lista')
         console.log(data)

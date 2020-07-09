@@ -11,20 +11,16 @@
       <input type="text" class="form-control" required v-model="nome">
     </div>
     <div class="form-group">
-      <label for="autor">Autor</label>
-      <input type="text" class="form-control" required v-model="autor">
+      <label for="conteudo">Conteudo</label>
+      <input type="text" class="form-control" required v-model="conteudo">
     </div>
-    <div class="form-group">
-      <label for="editora">Editora</label>
-      <input type="text" class="form-control" required v-model="editora">
-    </div>
-    <button>Enviar</button>
+    <b-button>{{ bibliografiaId ? 'Adicionar': 'Editar' }}</b-button>
   </form>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import validaForm from "../functions/validaForm";
+import validaForm from '../functions/validaForm'
   export default {
     name: 'FormBibliografia',
     props: {
@@ -40,8 +36,7 @@ import validaForm from "../functions/validaForm";
     data() {
       return {
         nome: '',
-        autor:'',
-        editora:''
+        conteudo:''
       }
     },
     methods: {
@@ -59,7 +54,7 @@ import validaForm from "../functions/validaForm";
       addNew() {
         this.addBibliografia({ nome:this.nome, autor:this.autor, editora:this.editora })
         .then(()=> {
-          console.log('-----------------retornei para a view')
+          console.log('-------retornei para a view')
           if(this.inModal)
             this.$emit('closeModal')
         }).catch(err=> {
