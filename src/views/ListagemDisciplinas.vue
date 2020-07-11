@@ -7,16 +7,18 @@
           <th>Nome</th>
           <th>Carga Horária (Teorica)</th>
           <th>Carga Horária (Prática)</th>
-          <th>Professor Responsável (NDE)</th>
+          <!-- <th>Professor Responsável (NDE)</th> -->
+          <th>Semestre</th>
           <th>Ação</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Nome da Disciplina</td>
-          <td>40</td>
-          <td>40</td>
-          <td>Nome do Professor</td>
+        <tr v-for="disc in disciplinas" :key="disc.id">
+          <td>{{disc.nome}}</td>
+          <td>{{disc.teoria}}</td>
+          <td>{{disc.pratica}}</td>
+          <!-- <td>Nome do Professor</td> -->
+          <td>{{disc.semestre}}</td>
           <td>
             <a href="#" class="btn btn-info">Detalhes</a>
             <a href="#" class="btn btn-info">Editar</a>

@@ -18,7 +18,7 @@
         </div>
         <div class="form-group col-4">
           <label for="teoria">Carga Horária Teoria</label>
-          <select class="form-control" name="teoria" id="" v-model="teoria" required>
+          <select class="form-control" name="teoria" id="" v-model.number="teoria" required>
             <option value="">Selecione</option>
             <option value="0">00</option>
             <option value="20">20</option>
@@ -28,7 +28,7 @@
         </div>
         <div class="form-group col-4">
           <label for="pratica">Carga Horária Pratica</label>
-          <select class="form-control" name="pratica" v-model="pratica" required>
+          <select class="form-control" name="pratica" v-model.number="pratica" required>
             <option value="">Selecione</option>
             <option value="0">00</option>
             <option value="20">20</option>
@@ -43,7 +43,7 @@
       <div class="row">
         <div class="col-12 form-group">
           <label for="descricao">Descricao</label>
-          <textarea name="descricao" id="descricao" cols="30" rows="10" class="form-control"></textarea>
+          <textarea name="descricao" id="descricao" cols="30" rows="10" class="form-control" v-model="descricao"></textarea>
         </div>
         <div class="col-4">
           <h3>Conteúdo</h3>
@@ -112,7 +112,7 @@
         </div>
       </div>
     </fieldset>
-    <b-button variant="primary">Enviar</b-button>
+    <button class="btn btn-primary">Enviar</button>
   </form>
 </template>
 
@@ -130,6 +130,7 @@
         pratica: 0,
         teoria: 0,
         semestre: 0,
+        descricao: '',
         conteudo:[],
         competencias:[],
         objetivos:[],
@@ -148,13 +149,26 @@
       },
       send(){
         //add Disciplina
+        const libs_basicas = this.basica.map(el=> el.id)
+        const libs_complementares = this.complementar.map(el=> el.id)
         const data = {
           nome: this.nome,
           teoria: this.teoria,
           pratica: this.pratica,
-
-
+          semestre: this.semestre,
+          ementa: {
+            descricao: this.descricao,
+            conteudo:this.conteudo,
+            competencias:this.competencias,
+            objetivos: this.objetivos
+          },
+          basica: libs_basicas,
+          complementar: libs_complementares
         }
+        console.log('-------- dados a serem enviados')
+        this.addDisciplina(data).then(
+          console.log('sucesss---------')
+        )  
       },
       updateList(data) {
         console.log('atualizei lista')
@@ -162,7 +176,8 @@
         this[data.list_name] = data.items.map(item=>item)
       },
       ...mapActions({
-        fetchBibliografias: 'bibliografiaModule/fetchAll'
+        fetchBibliografias: 'bibliografiaModule/fetchAll',
+        addDisciplina: 'disciplinaModule/add'
       })
     },
     computed: {
