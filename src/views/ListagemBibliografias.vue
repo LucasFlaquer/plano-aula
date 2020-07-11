@@ -6,23 +6,21 @@
       <thead>
         <tr>
           <th>Nome</th>
-          <th>Autor</th>
-          <th>Editora</th>
+          <th style="width:35%">Conteúdo</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="bibliografia in bibliografias" :key="bibliografia.id">
           <td>{{bibliografia.nome}}</td>
-          <td>{{bibliografia.autor}}</td>
-          <td>{{bibliografia.editora}}</td>
+          <td>{{bibliografia.conteudo}}</td>
           <td>
             <b-button 
             v-b-modal.modal-bibliografia 
             variant="info" 
             @click="handleFormOpen(bibliografia.id)"
             >Editar</b-button>
-            <a href="#" @click="deleteBibliografia(bibliografia.id)" class="btn btn-danger">Deletar</a>
+            <a href="#" @click.prevent="deleteBibliografia(bibliografia.id)" class="btn btn-danger">Deletar</a>
           </td>
         </tr>
       </tbody>
@@ -35,7 +33,7 @@
       <form-bibliografias
         :bibliografiaId="idBibliografia"
         :inModal="true"
-        @closeModal="this.$bvModal.hide('modal-bibliografia')"
+        @closeModal="handleModalClose"
       />
     </b-modal>
   </Dashboard>
@@ -61,6 +59,10 @@
         else
           this.modalTitle = 'Adicionar Bibliografia'
       },
+      handleModalClose() {
+        this.$bvModal.hide('modal-bibliografia')
+      },
+
       ...mapActions({
         fetchBibliografias: 'bibliografiaModule/fetchAll',
         deleteBibliografia: 'bibliografiaModule/delete'

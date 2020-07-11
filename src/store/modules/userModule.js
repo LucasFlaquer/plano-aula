@@ -81,8 +81,9 @@ export const actions = {
 
     } catch (error) {
       console.warn(error.response)
-      if(error.response.status == 403 || error.response.status === 401)
+      //deu algum erro aqui entao já manda para a login
       router.push({name:'Login'})
+      
     }
   },
   logout() {

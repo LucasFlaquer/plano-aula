@@ -61,7 +61,6 @@ export const actions = {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
       })
-      console.log('response recebida')
       commit('ADD_BIBLIOGRAFIA', response.data)
     } catch (error) {
         const {status, message} = handleErrors(error)
@@ -70,8 +69,7 @@ export const actions = {
             router.push({name:'Login'})
             break;
           case 422:
-            return error
-              
+            return error 
           default:
             break;
         }
@@ -84,18 +82,19 @@ export const actions = {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
       })
-      const bibliografias = getters.getAll()
+      const bibliografias = getters.getAll
+      console.log(bibliografias)
       const newList = bibliografias.map(bibliografia=> {
         if(bibliografia.id == response.data.id)
-        return {
-          id: response.data.id,
-          nome: response.data.nome,
-          autor: response.data.autor,
-          editora: response.data.editora
-        }
+          return {
+            id: response.data.id,
+            nome: response.data.nome,
+            conteudo:response.data.conteudo
+          }
+        else
+          return bibliografia
       })
-      console.log('response recebida')
-      commit('ADD_BIBLIOGRAFIA', response.data)
+      commit('SET_BIBLIOGRAFIAS', newList)
     } catch (error) {
       const {status, message} = handleErrors(error)
       switch (status) {
@@ -116,7 +115,7 @@ export const actions = {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
     }).then(response=> {
-      const bibliografias = getters.getAll()
+      const bibliografias = getters.getAll
       const newList = bibliografias.filter(el=> el.id !== id)
       commit('SET_BIBLIOGRAFIAS', newList)
     }).catch(error=>{

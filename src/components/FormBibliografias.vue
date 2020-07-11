@@ -14,7 +14,8 @@
       <label for="conteudo">Conteudo</label>
       <input type="text" class="form-control" required v-model="conteudo">
     </div>
-    <b-button>{{ bibliografiaId ? 'Adicionar': 'Editar' }}</b-button>
+    <button class="btn btn-primary">{{ bibliografiaId.length==0 ? 'Adicionar': 'Editar' }}</button>
+    <!-- <b-button variant="primary"></b-button> -->
   </form>
 </template>
 
@@ -42,9 +43,8 @@ import validaForm from '../functions/validaForm'
     methods: {
       submit() {
         const form = this.$refs.form
-        console.log(form.id)
         if(form.checkValidity())
-          if(this.bibliografiaId)
+          if(this.bibliografiaId.length > 0)
             this.update()
           else
             this.addNew()
@@ -52,21 +52,20 @@ import validaForm from '../functions/validaForm'
           validaForm(form)
       },
       addNew() {
-        this.addBibliografia({ nome:this.nome, autor:this.autor, editora:this.editora })
+        this.addBibliografia({ nome:this.nome, conteudo: this.conteudo })
         .then(()=> {
-          console.log('-------retornei para a view')
-          if(this.inModal)
+          if(this.inModal) {
             this.$emit('closeModal')
+          }
         }).catch(err=> {
           alert(err.satus, err.message)
         })
       },
       update() {
-        this.updateBibliografia({
-          bibliografia: { nome:this.nome, autor:this.autor, editora:this.editora },
-          id: this.bibliografiaId
-          }).then(()=> {
-            console.log('-----------------retornei para a view')
+        this.updateBibliografia({ 
+          bibliografia: { nome:this.nome, conteudo: this.conteudo },
+          id: this.bibliografiaId})
+          .then(()=> {
             if(this.inModal)
               this.$emit('closeModal')
           }).catch(err=> {
@@ -80,12 +79,11 @@ import validaForm from '../functions/validaForm'
       })
     },
     created () {
-      if(this.bibliografiaId) {
+      if(this.bibliografiaId.length>1) {
         this.fetchBibliografia(this.bibliografiaId)
         .then(()=> {
           this.nome = this.bibliografia.nome
-          this.autor = this.bibliografia.autor
-          this.editora = this.bibliografia.editora
+          this.conteudo = this.bibliografia.conteudo
         })
       }
     },
