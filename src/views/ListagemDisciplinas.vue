@@ -37,7 +37,7 @@ export default {
   name: "ListagemDisciplinas",
   methods: {
     ...mapActions({
-      fetchDisciplinas: "disciplinaModule/fetchDisciplinas"
+      fetchDisciplinas: "disciplinaModule/fetchAll"
     }),
     name() {
       //definir metodos
@@ -45,7 +45,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      disciplinas: "disciplinaModule/getAllDisciplinas"
+      disciplinas: "disciplinaModule/getAll"
     })
   },
   created() {

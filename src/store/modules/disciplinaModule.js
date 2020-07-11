@@ -21,7 +21,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchDisciplinas({ commit }) {
+  async fetchAll({ commit }) {
     try {
       const { data } = await api.get('disciplinas', {
         headers: {
@@ -33,6 +33,9 @@ export const actions = {
       if (error.response.status === 401 || error.response.status === 403)
         router.push({ name: 'Login' })
     }
+  },
+  async fetchOne({commit, getters}, id) {
+
   },
   async add({commit}, disciplina) {
     try {
@@ -48,11 +51,11 @@ export const actions = {
       //
     }
   }
-  
+
 }
 
 export const getters = {
-  getAllDisciplinas: state => {
+  getAll: state => {
     return state.disciplinas
   }
 }
