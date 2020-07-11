@@ -35,7 +35,24 @@ export const actions = {
     }
   },
   async fetchOne({commit, getters}, id) {
-
+    console.log('estou aqui')
+    const disciplina = getters.getOneById(id)
+    console.log(disciplina)
+    if(disciplina) {
+      console.log('entrie no commit');
+      commit('SET_DISCIPLINA', disciplina)
+    } else {
+      console.log('to aqui')
+      const response = await api.get(`/disciplinas/${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      })
+      console.log(response)
+      const disciplinas = getters.getAll
+      commit('SET_DISCIPLINAS', [...disciplinas, response.data])
+      commit('SET_DISCIPLINA', response.data)
+    }
   },
   async add({commit}, disciplina) {
     try {
@@ -57,5 +74,8 @@ export const actions = {
 export const getters = {
   getAll: state => {
     return state.disciplinas
+  },
+  getOneById: state => id => {
+    return state.disciplinas.find(el => el.id === id) || null
   }
 }

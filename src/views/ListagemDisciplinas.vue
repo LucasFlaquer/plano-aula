@@ -20,7 +20,7 @@
           <!-- <td>Nome do Professor</td> -->
           <td>{{disc.semestre}}</td>
           <td>
-            <a href="#" class="btn btn-info">Detalhes</a>
+            <router-link :to="{name:'DetalheDisciplina', params:{id:disc.id}}" class="btn btn-info">Detalhes</router-link>
             <a href="#" class="btn btn-info">Editar</a>
             <a href="#" class="btn btn-danger">Excluir</a>
           </td>

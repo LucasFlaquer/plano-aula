@@ -6,6 +6,7 @@ import ListagemCursos from '../views/ListagemCusos.vue'
 import ListagemDisciplinas from '@/views/ListagemDisciplinas'
 import ListagemBibliografias from '@/views/ListagemBibliografias'
 import AddDisciplina from '@/views/AddDisciplina'
+import DetalheDisciplina from '@/views/DetalheDisciplina'
 
 Vue.use(VueRouter)
 
@@ -29,8 +30,13 @@ const routes = [{
     name: 'ListagemDisciplinas',
     component: ListagemDisciplinas
   },
+  {path:'/disciplinas/nova', name: 'AddDisciplina', component:AddDisciplina },
+  {
+    path: '/disciplinas/:id',
+    name: 'DetalheDisciplina',
+    component: DetalheDisciplina,
+  },
   { path: '/bibliografias', name: 'ListagemBibliografias', component: ListagemBibliografias },
-  {path:'/disciplinas/nova', name: 'AddDisciplina', component:AddDisciplina }
 ]
 
 const router = new VueRouter({
