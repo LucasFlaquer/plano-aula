@@ -35,20 +35,15 @@ export const actions = {
     }
   },
   async fetchOne({commit, getters}, id) {
-    console.log('estou aqui')
     const disciplina = getters.getOneById(id)
-    console.log(disciplina)
     if(disciplina) {
-      console.log('entrie no commit');
       commit('SET_DISCIPLINA', disciplina)
     } else {
-      console.log('to aqui')
       const response = await api.get(`/disciplinas/${id}`, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       })
-      console.log(response)
       const disciplinas = getters.getAll
       commit('SET_DISCIPLINAS', [...disciplinas, response.data])
       commit('SET_DISCIPLINA', response.data)
@@ -66,6 +61,41 @@ export const actions = {
     } catch (error) {
       console.warn(error)
       //
+    }
+  },
+  async addEmenta({commit, getters}, {id, ementa}) {
+    //const disciplina = getters.getOneBy Id(id)
+    try {
+      const response = await api.patch(`/disciplinas/ementa`, ementa, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          id_disc: id
+        }
+      })
+      console.log(response.data)
+    } catch (error) {
+      console.warn(error)
+    }
+  },
+  async update({commit}, {id, disciplina}) {
+    try {
+      const response = await api.put(`/disciplinas/${id}`, disciplina, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      })
+      console.log('data->', response.data)
+      const disciplinas = getters.getAll
+      const newList = disciplinas.map(el => {
+        if(el.id == response.data.id) {
+          response.data
+        } else {
+          return el
+        }
+      })
+      commit('SET_DISCIPLINAS', newList)
+    } catch (error) {
+      console.warn(error)
     }
   }
 

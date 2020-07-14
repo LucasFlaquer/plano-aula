@@ -47,15 +47,18 @@
         </div>
         <div class="col-4">
           <h3>Conteúdo</h3>
-          <list-control list_name="conteudo" @updateList="updateList"/>
+          <list-control list_name="conteudo" @updateList="updateList" v-if="!id_disc"/>
+          <list-control list_name="conteudo" @updateList="updateList" :initialList="disciplina.ementa.conteudo" v-else/>
         </div>
         <div class="col-4">
           <h3>Competencias</h3>
-          <list-control list_name="competencias"  @updateList="updateList"/>
+          <list-control list_name="competencias"  @updateList="updateList" v-if="!id_disc"/>
+          <list-control list_name="competencias"  @updateList="updateList" v-else :initialList="disciplina.ementa.competencias"/>
         </div>
         <div class="col-4">
           <h3>Objetivos</h3>
-          <list-control list_name="objetivos" @updateList="updateList"/>
+          <list-control list_name="objetivos" @updateList="updateList" v-if="!id_disc"/>
+          <list-control list_name="objetivos" @updateList="updateList" v-else :initialList="disciplina.ementa.objetivos"/>
         </div>
       </div>
     </fieldset>
@@ -120,10 +123,16 @@
   import ListControl from '@/components/ListControl'
   import Multiselect from 'vue-multiselect'
   import 'vue-multiselect/dist/vue-multiselect.min.css'
-  import { mapActions, mapState } from 'vuex'
+  import { mapActions, mapState, mapGetters } from 'vuex'
   import validaForm from '../functions/validaForm'
   export default {
     name: 'FormDisciplina',
+    props: {
+      id_disc: {
+        type:String,
+        default: null,
+      }
+    },
     data() {
       return {
         nome: '',
@@ -142,13 +151,6 @@
     methods: {
       submit() {
         const form = this.$refs.form
-        if(form.checkValidity())
-          this.send()
-        else
-          validaForm(form)
-      },
-      send(){
-        //add Disciplina
         const libs_basicas = this.basica.map(el=> el.id)
         const libs_complementares = this.complementar.map(el=> el.id)
         const data = {
@@ -165,10 +167,26 @@
           basica: libs_basicas,
           complementar: libs_complementares
         }
-        console.log('-------- dados a serem enviados')
-        this.addDisciplina(data).then(
+        if(form.checkValidity()) {
+          if(this.id_disc)
+            this.update(data)
+          else
+            this.send(data)
+        }
+        else
+          validaForm(form)
+      },
+      send(data){
+        //add Disciplina
+        this.addDisciplina(data).then(()=> {
           console.log('sucesss---------')
-        )  
+          this.$router.push({name:'ListagemDisciplina'})
+
+        })  
+      },
+      update(data) {
+        this.updateDisciplina({id: this.id_disc, disciplina: data})
+
       },
       updateList(data) {
         console.log('atualizei lista')
@@ -177,17 +195,29 @@
       },
       ...mapActions({
         fetchBibliografias: 'bibliografiaModule/fetchAll',
-        addDisciplina: 'disciplinaModule/add'
+        addDisciplina: 'disciplinaModule/add',
+        updateDisciplina: 'disciplinaModule/update',
+        fetchDisciplina: 'disciplinaModule/fetchOne'
       })
     },
     computed: {
       ...mapState({
-        bibliografias: state=> state.bibliografiaModule.bibliografias
-      })
+        bibliografias: state=> state.bibliografiaModule.bibliografias,
+        disciplina: state=> state.disciplinaModule.disciplina
+      }),
     },
     created () {
       this.fetchBibliografias()
-
+      if(this.id_disc) {
+        this.nome = this.disciplina.nome
+        this.semestre = this.disciplina.semestre
+        this.pratica = this.disciplina.pratica
+        this.teoria = this.disciplina.teoria
+        this.descricao = this.disciplina.ementa.descricao
+        this.basica = this.disciplina.ementa.basica
+        this.complementar = this.disciplina.ementa.complementar
+      }
+        
     },
     components: {
       Multiselect,

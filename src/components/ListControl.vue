@@ -43,7 +43,7 @@
   export default {
     name: 'ListControl',
     props: {
-      list: {
+      initialList: {
         type: Array,
         default: ()=>[],
       },
@@ -57,6 +57,7 @@
         newItem: '',
         editingIndex: -5,
         editItem: '',
+        list:[]
       }
     },
     methods: {
@@ -87,12 +88,12 @@
       }
     },
     watch: {
-      list: {
-        handler(list) {
-          this.$emit('updateList', {list_name: this.list_name, items:this.list})
-        },
-        deep:true
-      }
+      // list: {
+      //   handler(list) {
+      //     this.$emit('updateList', {list_name: this.list_name, items:this.list})
+      //   },
+      //   deep:true
+      // }
     },
     directives: {
       "item-focus":function(el, binding) {
@@ -100,6 +101,10 @@
           el.focus()
         }
       }
+    },
+    created() {
+      if(this.initialList.length>0)
+        this.list = this.initialList
     }
   }
 </script>
