@@ -21,8 +21,8 @@
           <td>{{disc.semestre}}</td>
           <td>
             <router-link :to="{name:'DetalheDisciplina', params:{id:disc.id}}" class="btn btn-info">Detalhes</router-link>
-            <a href="#" class="btn btn-info">Editar</a>
-            <a href="#" class="btn btn-danger">Excluir</a>
+            <router-link :to="{name:'EditDisciplina', params:{id:disc.id}}" class="btn btn-info">Editar</router-link>
+            <a href="#" class="btn btn-danger" @click="deleteDisciplina(disc.id)">Excluir</a>
           </td>
         </tr>
       </tbody>
@@ -37,11 +37,9 @@ export default {
   name: "ListagemDisciplinas",
   methods: {
     ...mapActions({
-      fetchDisciplinas: "disciplinaModule/fetchAll"
-    }),
-    name() {
-      //definir metodos
-    }
+      fetchDisciplinas: "disciplinaModule/fetchAll",
+      deleteDisciplina: "disciplinaModule/delete"
+    }),  
   },
   computed: {
     ...mapGetters({

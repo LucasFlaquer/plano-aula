@@ -88,12 +88,12 @@
       }
     },
     watch: {
-      // list: {
-      //   handler(list) {
-      //     this.$emit('updateList', {list_name: this.list_name, items:this.list})
-      //   },
-      //   deep:true
-      // }
+      list: {
+        handler(list) {
+          this.$emit('updateList', {list_name: this.list_name, items:this.list})
+        },
+        deep:true
+      }
     },
     directives: {
       "item-focus":function(el, binding) {

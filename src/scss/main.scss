@@ -11,6 +11,11 @@
   th,
   td {
     text-align: center;
+    .btn {
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
   }
 }
 

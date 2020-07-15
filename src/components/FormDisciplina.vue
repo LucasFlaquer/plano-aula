@@ -185,7 +185,10 @@
         })  
       },
       update(data) {
-        this.updateDisciplina({id: this.id_disc, disciplina: data})
+        console.log(data)
+        this.updateDisciplina({id: this.id_disc, disciplina: data}).then(()=> {
+          this.$router.push({name:'ListagemDisciplinas'})
+        })
 
       },
       updateList(data) {
@@ -217,7 +220,6 @@
         this.basica = this.disciplina.ementa.basica
         this.complementar = this.disciplina.ementa.complementar
       }
-        
     },
     components: {
       Multiselect,

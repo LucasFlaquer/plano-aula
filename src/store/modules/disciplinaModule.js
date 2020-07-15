@@ -77,7 +77,7 @@ export const actions = {
       console.warn(error)
     }
   },
-  async update({commit}, {id, disciplina}) {
+  async update({commit, getters}, {id, disciplina}) {
     try {
       const response = await api.put(`/disciplinas/${id}`, disciplina, {
         headers: {
@@ -88,17 +88,33 @@ export const actions = {
       const disciplinas = getters.getAll
       const newList = disciplinas.map(el => {
         if(el.id == response.data.id) {
-          response.data
+          console.log(el.id)
+          return response.data
         } else {
           return el
         }
       })
+      console.log(newList)
       commit('SET_DISCIPLINAS', newList)
     } catch (error) {
       console.warn(error)
     }
+  },
+  async delete({ commit, getters }, { id }) {
+    api.delete(`/disciplinas/${id}`, {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    }).then(response=> {
+      if(response.status == 200) {
+        const oldList = getters.getAll
+        const newList = oldList.filter(el=> el.id!= id)
+        commit('SET_DISCIPLINAS', newList)
+      }
+    }).catch(error=> {
+      console.warn(error)
+    })
   }
-
 }
 
 export const getters = {
