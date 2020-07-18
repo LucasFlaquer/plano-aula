@@ -3,10 +3,14 @@ import router from '../../router/index'
 
 export const namespaced = true
 
-export const state  = {
-  users:[],
-  user:{},
-  userLogged:{}
+export const state = {
+  users: [],
+  user: {
+    //
+  },
+  userLogged: {
+    //
+  }
 }
 
 export const mutations = {
@@ -19,11 +23,10 @@ export const mutations = {
   SET_USER_LOGGED(state, user) {
     state.userLogged = user
   }
-
 }
 
 export const actions = {
-  async fetchUsers({commit}) {
+  async fetchAll({ commit }) {
     try {
       const response = await api.get('/users', {
         headers: {
@@ -31,15 +34,17 @@ export const actions = {
         }
       })
       commit('SET_USERS', response.data)
-    } catch(error) {
+    } catch (error) {
       console.warn(error)
-      if(error.response.status == 403 || error.response.status === 401)
-        router.push({name:'Login'})
+      if (error.response.status == 403 || error.response.status === 401)
+        router.push({
+          name: 'Login'
+        })
     }
   },
-  async fetchUser({commit, getters}, id) {
+  async fetchOne({ commit, getters }, id) {
     const user = getters.getUserById(id)
-    if(user) {
+    if (user) {
       console.log(user)
       commit('SET_USER', user)
     } else {
@@ -52,25 +57,32 @@ export const actions = {
         commit('SET_USER', response.data)
       } catch (error) {
         console.warn(error.response)
-        if(error.response.status == 403 || error.response.status === 401)
-          router.push({name:'Login'})
+        if (error.response.status == 403 || error.response.status === 401)
+          router.push({
+            name: 'Login'
+          })
       }
     }
   },
-  async makeLogin({commit}, user) {
+  async makeLogin({ commit }, user) {
     try {
       const response = await api.post('/login', user)
-      const { name, logged_in_as:email } = response.data
-      commit('SET_USER_LOGGED', { name, email })
+      const { name, logged_in_as: email } = response.data
+      commit('SET_USER_LOGGED', {
+        name,
+        email
+      })
       localStorage.setItem('token', response.data.access_token)
-      router.push({name:'Home'})
+      router.push({
+        name: 'Home'
+      })
     } catch (error) {
       console.warn(error.response)
-      if(error.response.status == 403 || error.response.status === 401)
+      if (error.response.status == 403 || error.response.status === 401)
         return false
     }
   },
-  async Authenticate({commit}) {
+  async Authenticate({ commit }) {
     try {
       const response = await api.get('/users/me', {
         headers: {
@@ -78,29 +90,25 @@ export const actions = {
         }
       })
       commit('SET_USER_LOGGED', response.data)
-
     } catch (error) {
       console.warn(error.response)
       //deu algum erro aqui entao já manda para a login
-      router.push({name:'Login'})
-      
+      router.push({
+        name: 'Login'
+      })
     }
   },
   logout() {
     localStorage.removeItem('token')
-    router.push({name:'Login'})
+    router.push({
+      name: 'Login'
+    })
   }
 }
 
 export const getters = {
-  getAllUsers() {
-
-  },
-  getUserById: state => id => {
+  getAll() {},
+  getById: state => id => {
     return state.users.find(user => user.id === id)
   }
-  /*
-  getEventById: state => id => {
-    return state.events.find(event => event.id === id)
-  } */
 }

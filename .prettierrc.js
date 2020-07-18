@@ -1,5 +1,6 @@
 // my preference
 module.exports = {
   semi: false,
-  singleQuote: true
+  singleQuote: true,
+  multiLine: false
 }

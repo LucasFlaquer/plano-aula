@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import ListagemCursos from '../views/ListagemCusos.vue'
+import AddCurso from '@/views/AddCurso'
 import ListagemDisciplinas from '@/views/ListagemDisciplinas'
 import ListagemBibliografias from '@/views/ListagemBibliografias'
 import AddDisciplina from '@/views/AddDisciplina'
@@ -12,12 +13,36 @@ import EditDisciplina from '@/views/EditDisciplina'
 
 Vue.use(VueRouter)
 
-const routes = [
-  { path: '/', name: 'Home', component: Home },
-  { path: '/login', name: 'Login', component: Login },
-  { path: '/cursos',name: 'ListagemCursos', component: ListagemCursos },
-  { path: '/disciplinas', name: 'ListagemDisciplinas', component: ListagemDisciplinas },
-  { path:'/disciplinas/nova', name: 'AddDisciplina', component:AddDisciplina },
+const routes = [{
+    path: '/',
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/cursos',
+    name: 'ListagemCursos',
+    component: ListagemCursos
+  },
+  {
+    path: '/cursos/novo',
+    name: 'AddCurso',
+    component: AddCurso
+  },
+  {
+    path: '/disciplinas',
+    name: 'ListagemDisciplinas',
+    component: ListagemDisciplinas
+  },
+  {
+    path: '/disciplinas/nova',
+    name: 'AddDisciplina',
+    component: AddDisciplina
+  },
   {
     path: '/disciplinas/:id',
     name: 'DetalheDisciplina',
@@ -33,7 +58,11 @@ const routes = [
     name: 'AddEmenta',
     component: AddEmenta
   },
-  { path: '/bibliografias', name: 'ListagemBibliografias', component: ListagemBibliografias },
+  {
+    path: '/bibliografias',
+    name: 'ListagemBibliografias',
+    component: ListagemBibliografias
+  },
 ]
 
 const router = new VueRouter({

@@ -1,6 +1,9 @@
 <template>
   <dashboard>
     <h1>Listagem de Disciplinas</h1>
+    <p>
+      <router-link class="btn btn-primary" :to="{name:'AddDisciplina'}">Nova Disciplina</router-link>
+    </p>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -20,8 +23,14 @@
           <!-- <td>Nome do Professor</td> -->
           <td>{{disc.semestre}}</td>
           <td>
-            <router-link :to="{name:'DetalheDisciplina', params:{id:disc.id}}" class="btn btn-info">Detalhes</router-link>
-            <router-link :to="{name:'EditDisciplina', params:{id:disc.id}}" class="btn btn-info">Editar</router-link>
+            <router-link
+              :to="{name:'DetalheDisciplina', params:{id:disc.id}}"
+              class="btn btn-info"
+            >Detalhes</router-link>
+            <router-link
+              :to="{name:'EditDisciplina', params:{id:disc.id}}"
+              class="btn btn-info"
+            >Editar</router-link>
             <a href="#" class="btn btn-danger" @click="deleteDisciplina(disc.id)">Excluir</a>
           </td>
         </tr>
@@ -31,29 +40,29 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import Dashboard from "@/components/Dashboard";
+import { mapActions, mapGetters } from 'vuex'
+import Dashboard from '@/components/Dashboard'
 export default {
-  name: "ListagemDisciplinas",
+  name: 'ListagemDisciplinas',
   methods: {
     ...mapActions({
-      fetchDisciplinas: "disciplinaModule/fetchAll",
-      deleteDisciplina: "disciplinaModule/delete"
-    }),  
+      fetchDisciplinas: 'disciplinaModule/fetchAll',
+      deleteDisciplina: 'disciplinaModule/delete'
+    })
   },
   computed: {
     ...mapGetters({
-      disciplinas: "disciplinaModule/getAll"
+      disciplinas: 'disciplinaModule/getAll'
     })
   },
   created() {
-    this.fetchDisciplinas();
-    console.log(this.disciplinas);
+    this.fetchDisciplinas()
+    console.log(this.disciplinas)
   },
   components: {
     Dashboard
   }
-};
+}
 </script>
 
 <style lang="scss" scoped></style>

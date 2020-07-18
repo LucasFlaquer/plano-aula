@@ -22,7 +22,7 @@
             <router-link class="btn btn-dark" :to="{name:'ListagemBibliografias'}">Bibliografias</router-link>
           </li>
           <li class="sidenav--item">
-            <router-link class="btn btn-dark" :to="{name:'AddDisciplina'}">Disciplinas</router-link>
+            <router-link class="btn btn-dark" :to="{name:'AddCurso'}">CURSO</router-link>
           </li>
         </ul>
       </nav>
@@ -39,23 +39,23 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex'
 export default {
-  name: "Dashboard",
+  name: 'Dashboard',
   computed: mapState({
     user: state => state.userModule.userLogged
   }),
   methods: {
     ...mapActions({
-      logout: "userModule/logout",
-      Authenticate: "userModule/Authenticate"
+      logout: 'userModule/logout',
+      Authenticate: 'userModule/Authenticate'
     })
   },
   created() {
-    this.Authenticate();
+    this.Authenticate()
     // console.log(this.user);
   }
-};
+}
 </script>
 
 <style lang="scss">
@@ -83,7 +83,7 @@ export default {
 .sidenav {
   //background: red;
   h1 {
-    font-family: "Balsamiq Sans", cursive;
+    font-family: 'Balsamiq Sans', cursive;
     text-align: center;
   }
   &--list {

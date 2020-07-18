@@ -5,7 +5,9 @@ export const namespaced = true
 
 export const state = {
   cursos: [],
-  curso: {}
+  curso: {
+    //
+  }
 }
 
 export const mutations = {
@@ -21,26 +23,20 @@ export const mutations = {
 }
 
 export const actions = {
-  addNewCurso({
-    commit
-  }, data) {
-    api.post('/cursos', data, {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      }
-    }).then(response => {
+  async add({ commit }, data) {
+    try {
+      const response = await api.post('/cursos', data, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      })
+      console.log(response.data)
       commit('ADD_CURSO', response.data)
-    }).catch(error => {
+    } catch (error) {
       console.warn(error)
-    })
+    }
   },
-  async updateCurso({
-    commit,
-    getters
-  }, {
-    curso,
-    id
-  }) {
+  async updateCurso({ commit, getters }, { curso, id }) {
     console.log(id)
     try {
       const response = await api.put(`/cursos/${id}`, curso, {
@@ -73,63 +69,67 @@ export const actions = {
         })
     }
   },
-  async deleteCurso({
-    commit,
-    getters
-  }, id) {
-    api.delete(`/cursos/${id}`, {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      }
-    }).then(response => {
-      const cursos = getters.getCursos
-      commit('SET_CURSOS', cursos.filter(curso => curso.id !== id))
-    }).catch(error => {
-      if (error.response.status === 403 || error.response.status === 401)
-        router.push({
-          name: 'Login'
-        })
-    })
-  },
-  fetchCursos({
-    commit
-  }) {
-    api.get('/cursos', {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      }
-    }).then(response => {
-      console.log(response.data)
-      commit('SET_CURSOS', response.data)
-    }).catch(error => {
-      console.warn(error)
-      if (error.response.status == 403 || error.response.status === 401)
-        router.push({
-          name: 'Login'
-        })
-    })
-  },
-  fetchCurso({
-    commit,
-    getters
-  }, id) {
-    const curso = getters.getCursoById(id)
-    if (curso) {
-      commit('SET_CURSO', curso)
-    } else {
-      api.get(`/cursos/${id}`, {
+  async deleteCurso({ commit, getters }, id) {
+    api
+      .delete(`/cursos/${id}`, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
-      }).then(response => {
-        commit('SET_CURSO', response.data)
-      }).catch(error => {
+      })
+      .then(response => {
+        const cursos = getters.getCursos
+        commit(
+          'SET_CURSOS',
+          cursos.filter(curso => curso.id !== id)
+        )
+      })
+      .catch(error => {
+        if (error.response.status === 403 || error.response.status === 401)
+          router.push({
+            name: 'Login'
+          })
+      })
+  },
+  fetchCursos({ commit }) {
+    api
+      .get('/cursos', {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      })
+      .then(response => {
+        console.log(response.data)
+        commit('SET_CURSOS', response.data)
+      })
+      .catch(error => {
         console.warn(error)
         if (error.response.status == 403 || error.response.status === 401)
           router.push({
             name: 'Login'
           })
       })
+  },
+  fetchCurso({ commit, getters }, id) {
+    const curso = getters.getCursoById(id)
+    if (curso) {
+      commit('SET_CURSO', curso)
+    } else {
+      api
+        .get(`/cursos/${id}`, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+          }
+        })
+        .then(response => {
+          commit('SET_CURSO', response.data)
+        })
+        .catch(error => {
+          console.warn(error)
+          if (error.response.status == 403 || error.response.status === 401)
+            router.push({
+              name: 'Login'
+            })
+        })
     }
   }
 }
