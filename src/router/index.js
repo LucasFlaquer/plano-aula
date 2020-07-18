@@ -10,6 +10,7 @@ import AddDisciplina from '@/views/AddDisciplina'
 import DetalheDisciplina from '@/views/DetalheDisciplina'
 import AddEmenta from '@/views/AddEmenta'
 import EditDisciplina from '@/views/EditDisciplina'
+import EditCurso from '@/views/EditCurso'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,11 @@ const routes = [{
     path: '/cursos/novo',
     name: 'AddCurso',
     component: AddCurso
+  },
+  {
+    path: '/cursos/:id/editar',
+    name: 'EditCurso',
+    component: EditCurso
   },
   {
     path: '/disciplinas',

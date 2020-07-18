@@ -90,26 +90,16 @@ export const actions = {
           })
       })
   },
-  fetchCursos({ commit }) {
-    api
-      .get('/cursos', {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-      })
-      .then(response => {
-        console.log(response.data)
-        commit('SET_CURSOS', response.data)
-      })
-      .catch(error => {
-        console.warn(error)
-        if (error.response.status == 403 || error.response.status === 401)
-          router.push({
-            name: 'Login'
-          })
-      })
+  async fetchAll({ commit }) {
+    const response = await api.get('/cursos', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+    console.log(response.data)
+    commit('SET_CURSOS', response.data)
   },
-  fetchCurso({ commit, getters }, id) {
+  fetchOne({ commit, getters }, id) {
     const curso = getters.getCursoById(id)
     if (curso) {
       commit('SET_CURSO', curso)
@@ -135,7 +125,7 @@ export const actions = {
 }
 
 export const getters = {
-  getCursos: state => {
+  getAll: state => {
     return state.cursos
   },
   getCursoById: state => id => {
