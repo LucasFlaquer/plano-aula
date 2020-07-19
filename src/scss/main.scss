@@ -2,15 +2,19 @@
 @import 'node_modules/bootstrap-vue/src/index.scss';
 //@import 'node_modules/vue-multiselect/dist/vue-multiselect.min.css';
 @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@700&display=swap');
+
 .btn {
   &-dark {
     background-color: #464343;
   }
 }
+
 .table {
+
   th,
   td {
     text-align: center;
+
     .btn {
       &:not(:last-child) {
         margin-right: 8px;
@@ -21,15 +25,37 @@
 
 .form {
   padding-bottom: 50px;
-  
+
   .required {
     border-color: red;
   }
+
   textarea {
     resize: vertical;
   }
+
   fieldset {
     margin-top: 50px;
   }
-  
+
+  .grade {
+    &--item {
+      padding: 20px;
+      background-color: #00415d7d;
+      border-radius: 5px;
+      margin-bottom: 40px;
+      color: #fff;
+    }
+
+    &--disciplinas {
+      min-height: 300px;
+
+      li {
+        border-bottom: 1px solid #fff;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+      }
+    }
+  }
+
 }

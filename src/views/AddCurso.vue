@@ -207,23 +207,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.grade {
-  &--item {
-    padding: 20px;
-    background-color: #00415d7d;
-    border-radius: 5px;
-    margin-bottom: 40px;
-    color: #fff;
-  }
-  &--disciplinas {
-    min-height: 300px;
-    li {
-      border-bottom: 1px solid #fff;
-      padding-bottom: 5px;
-      margin-bottom: 15px;
-    }
-  }
-}
-</style>

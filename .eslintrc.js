@@ -5,7 +5,6 @@ module.exports = {
   },
   extends: ['plugin:vue/essential', 'eslint:recommended'],
   parserOptions: {
-    ecmaVersion: 6,
     parser: 'babel-eslint'
   },
   rules: {
@@ -14,11 +13,12 @@ module.exports = {
     'no-unused-vars': 'off',
     //'object-curly-new-line': 'off',
     'object-curly-newline': [
-      'error',
+      'off',
       {
         ObjectExpression: 'always',
         ObjectPattern: {
-          multiline: false
+          multiline: true,
+          minProperties: 2
         },
         ImportDeclaration: 'never',
         ExportDeclaration: {

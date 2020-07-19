@@ -23,7 +23,9 @@ export const mutations = {
 }
 
 export const actions = {
-  async add({ commit }, data) {
+  async add({
+    commit
+  }, data) {
     try {
       const response = await api.post('/cursos', data, {
         headers: {
@@ -36,7 +38,13 @@ export const actions = {
       console.warn(error)
     }
   },
-  async updateCurso({ commit, getters }, { curso, id }) {
+  async update({
+    commit,
+    getters
+  }, {
+    curso,
+    id
+  }) {
     console.log(id)
     try {
       const response = await api.put(`/cursos/${id}`, curso, {
@@ -44,17 +52,12 @@ export const actions = {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
       })
-      const cursos = getters.getCursos
+      const cursos = getters.getAll
       console.log(cursos)
       const newCursos = cursos.map(curso => {
         if (curso.id == response.data.id) {
           console.log(response.data)
-          return {
-            id: response.data.id,
-            nome: response.data.nome,
-            turno: response.data.turno,
-            coordenador: response.data.coordenador
-          }
+          return response.data
         } else {
           console.log(curso)
           return curso
@@ -69,7 +72,10 @@ export const actions = {
         })
     }
   },
-  async deleteCurso({ commit, getters }, id) {
+  async deleteCurso({
+    commit,
+    getters
+  }, id) {
     api
       .delete(`/cursos/${id}`, {
         headers: {
@@ -77,7 +83,7 @@ export const actions = {
         }
       })
       .then(response => {
-        const cursos = getters.getCursos
+        const cursos = getters.getAll
         commit(
           'SET_CURSOS',
           cursos.filter(curso => curso.id !== id)
@@ -90,37 +96,50 @@ export const actions = {
           })
       })
   },
-  async fetchAll({ commit }) {
+  async fetchAll({
+    commit
+  }) {
     const response = await api.get('/cursos', {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
     })
-    console.log(response.data)
     commit('SET_CURSOS', response.data)
   },
-  fetchOne({ commit, getters }, id) {
+  async fetchOne({
+    commit,
+    getters
+  }, id) {
     const curso = getters.getCursoById(id)
     if (curso) {
       commit('SET_CURSO', curso)
     } else {
-      api
-        .get(`/cursos/${id}`, {
+      try {
+        const response = await api.get(`/cursos/${id}`, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')
           }
         })
-        .then(response => {
-          commit('SET_CURSO', response.data)
-        })
-        .catch(error => {
-          console.warn(error)
-          if (error.response.status == 403 || error.response.status === 401)
-            router.push({
-              name: 'Login'
-            })
-        })
+        commit('SET_CURSO', response.data)
+      } catch (error) {
+        console.warn(error)
+        if (error.response.status == 403 || error.response.status === 401)
+          router.push({
+            name: 'Login'
+          })
+      }
     }
+  },
+  async getDataForUpdate({
+    dispatch
+  }, id) {
+    await dispatch('fetchOne', id)
+    await dispatch('disciplinaModule/fetchAll', null, {
+      root: true
+    })
+    await dispatch('userModule/fetchAll', null, {
+      root: true
+    })
   }
 }
 
