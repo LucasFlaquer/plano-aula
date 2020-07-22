@@ -26,7 +26,9 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchAll({ commit }) {
+  async fetchAll({
+    commit
+  }) {
     try {
       const response = await api.get('/users', {
         headers: {
@@ -42,7 +44,10 @@ export const actions = {
         })
     }
   },
-  async fetchOne({ commit, getters }, id) {
+  async fetchOne({
+    commit,
+    getters
+  }, id) {
     const user = getters.getUserById(id)
     if (user) {
       console.log(user)
@@ -64,10 +69,15 @@ export const actions = {
       }
     }
   },
-  async makeLogin({ commit }, user) {
+  async makeLogin({
+    commit
+  }, user) {
     try {
       const response = await api.post('/login', user)
-      const { name, logged_in_as: email } = response.data
+      const {
+        name,
+        logged_in_as: email
+      } = response.data
       commit('SET_USER_LOGGED', {
         name,
         email
@@ -82,7 +92,9 @@ export const actions = {
         return false
     }
   },
-  async Authenticate({ commit }) {
+  async Authenticate({
+    commit
+  }) {
     try {
       const response = await api.get('/users/me', {
         headers: {
@@ -103,7 +115,8 @@ export const actions = {
     router.push({
       name: 'Login'
     })
-  }
+  },
+
 }
 
 export const getters = {
