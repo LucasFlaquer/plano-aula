@@ -52,7 +52,7 @@ export default {
     })
   },
   created() {
-    //this.Authenticate()
+    this.Authenticate()
     // console.log(this.user);
   }
 }

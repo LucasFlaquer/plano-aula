@@ -69,6 +69,22 @@ export const actions = {
       }
     }
   },
+  async fetchCursoCoordenado({
+    commit,
+    dispatch
+  }) {
+    try {
+      const repsonse = api.get(`/coordenador/curso`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      })
+      //retorna o curso que o usuario logado coordena
+
+    } catch (error) {
+      //
+    }
+  },
   async makeLogin({
     commit
   }, user) {
