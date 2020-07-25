@@ -22,7 +22,7 @@
             <router-link class="btn btn-dark" :to="{name:'ListagemBibliografias'}">Bibliografias</router-link>
           </li>
           <li class="sidenav--item">
-            <router-link class="btn btn-dark" :to="{name:'AddCurso'}">CURSO</router-link>
+            <router-link class="btn btn-dark" :to="{name:'AssociarDisciplinasProfessor'}">Associar Disciplinas ao Professor</router-link>
           </li>
         </ul>
       </nav>

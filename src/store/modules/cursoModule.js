@@ -23,9 +23,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async add({
-    commit
-  }, data) {
+  async add({ commit }, data) {
     try {
       const response = await api.post('/cursos', data, {
         headers: {
@@ -38,13 +36,7 @@ export const actions = {
       console.warn(error)
     }
   },
-  async update({
-    commit,
-    getters
-  }, {
-    curso,
-    id
-  }) {
+  async update({ commit, getters }, { curso, id }) {
     console.log(id)
     try {
       const response = await api.put(`/cursos/${id}`, curso, {
@@ -72,10 +64,7 @@ export const actions = {
         })
     }
   },
-  async deleteCurso({
-    commit,
-    getters
-  }, id) {
+  async deleteCurso({ commit, getters }, id) {
     api
       .delete(`/cursos/${id}`, {
         headers: {
@@ -96,9 +85,7 @@ export const actions = {
           })
       })
   },
-  async fetchAll({
-    commit
-  }) {
+  async fetchAll({ commit }) {
     const response = await api.get('/cursos', {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -106,10 +93,7 @@ export const actions = {
     })
     commit('SET_CURSOS', response.data)
   },
-  async fetchOne({
-    commit,
-    getters
-  }, id) {
+  async fetchOne({ commit, getters }, id) {
     const curso = getters.getCursoById(id)
     if (curso) {
       commit('SET_CURSO', curso)
@@ -130,9 +114,7 @@ export const actions = {
       }
     }
   },
-  async getDataForUpdate({
-    dispatch
-  }, id) {
+  async getDataForUpdate({ dispatch }, id) {
     await dispatch('fetchOne', id)
     await dispatch('disciplinaModule/fetchAll', null, {
       root: true
@@ -140,6 +122,15 @@ export const actions = {
     await dispatch('userModule/fetchAll', null, {
       root: true
     })
+  },
+  async fetchOneCoordenador({ commit }) {
+    const response = await api.get('/coordenador/curso', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+    console.log(response.data)
+    commit('SET_CURSO', response.data)
   }
 }
 

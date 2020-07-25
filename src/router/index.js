@@ -11,6 +11,7 @@ import DetalheDisciplina from '@/views/DetalheDisciplina'
 import AddEmenta from '@/views/AddEmenta'
 import EditDisciplina from '@/views/EditDisciplina'
 import EditCurso from '@/views/EditCurso'
+import DisciplinasProfessor from '@/views/DisciplinasProfessor'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -100,6 +101,14 @@ const routes = [{
       secure: true
     }
   },
+  {
+    path: '/professor/disciplinas',
+    name: 'AssociarDisciplinasProfessor',
+    component: DisciplinasProfessor,
+    meta: {
+      secure: true
+    }
+  }
 ]
 
 const router = new VueRouter({

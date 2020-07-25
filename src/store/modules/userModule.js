@@ -26,15 +26,14 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchAll({
-    commit
-  }) {
+  async fetchAll({ commit }) {
     try {
       const response = await api.get('/users', {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
       })
+      console.log('users', response.data)
       commit('SET_USERS', response.data)
     } catch (error) {
       console.warn(error)
@@ -44,10 +43,7 @@ export const actions = {
         })
     }
   },
-  async fetchOne({
-    commit,
-    getters
-  }, id) {
+  async fetchOne({ commit, getters }, id) {
     const user = getters.getUserById(id)
     if (user) {
       console.log(user)
@@ -69,31 +65,24 @@ export const actions = {
       }
     }
   },
-  async fetchCursoCoordenado({
-    commit,
-    dispatch
-  }) {
-    try {
-      const repsonse = api.get(`/coordenador/curso`, {
+  async fetchCoordenadores({ commit }) {
+    api
+      .get('/coordenadores', {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
       })
-      //retorna o curso que o usuario logado coordena
-
-    } catch (error) {
-      //
-    }
+      .then(response => {
+        commit('SET_USERS', response.data)
+      })
+      .catch(error => {
+        console.warn(error)
+      })
   },
-  async makeLogin({
-    commit
-  }, user) {
+  async makeLogin({ commit }, user) {
     try {
       const response = await api.post('/login', user)
-      const {
-        name,
-        logged_in_as: email
-      } = response.data
+      const { name, logged_in_as: email } = response.data
       commit('SET_USER_LOGGED', {
         name,
         email
@@ -108,9 +97,7 @@ export const actions = {
         return false
     }
   },
-  async Authenticate({
-    commit
-  }) {
+  async Authenticate({ commit }) {
     try {
       const response = await api.get('/users/me', {
         headers: {
@@ -132,11 +119,41 @@ export const actions = {
       name: 'Login'
     })
   },
-
+  async patchDisciplinas({ commit, getters }, { id, disc_ids }) {
+    const data = {
+      disc_ids
+    }
+    try {
+      const response = await api.patch('/users/disciplinas', data, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+          id_user: id
+        }
+      })
+      console.log('------------------ usuario atualizaddo')
+      const users = getters.getAll
+      const newList = users.map(user => {
+        if (user.id == response.data.id)
+          return {
+            id: response.data.id,
+            name: user.name,
+            email: user.email,
+            disciplinas_ministradas: response.data.disciplinas_ministradas,
+            acccess: user.access
+          }
+        else return user
+      })
+      commit('SET_USERS', newList)
+    } catch (error) {
+      console.warn(error)
+    }
+  }
 }
 
 export const getters = {
-  getAll() {},
+  getAll() {
+    return state.users
+  },
   getById: state => id => {
     return state.users.find(user => user.id === id)
   }

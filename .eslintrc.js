@@ -13,12 +13,12 @@ module.exports = {
     'no-unused-vars': 'off',
     //'object-curly-new-line': 'off',
     'object-curly-newline': [
-      'off',
+      'error',
       {
         ObjectExpression: 'always',
         ObjectPattern: {
           multiline: true,
-          minProperties: 2
+          minProperties: 3
         },
         ImportDeclaration: 'never',
         ExportDeclaration: {
