@@ -5,24 +5,45 @@
         <h1>PA CRM</h1>
         <p class="sidenav--user">
           Usuário:
-          <span>{{user.name}}</span>
+          <span>{{ user.name }}</span>
         </p>
 
         <ul class="sidenav--list">
           <li class="sidenav--item">
-            <router-link class="btn btn-dark" :to="{name:'Home'}">Home</router-link>
+            <router-link class="btn btn-dark" :to="{ name: 'Home' }"
+              >Home</router-link
+            >
           </li>
           <li class="sidenav--item">
-            <router-link class="btn btn-dark" :to="{name:'ListagemCursos'}">Cursos</router-link>
+            <router-link class="btn btn-dark" :to="{ name: 'ListagemCursos' }"
+              >Cursos</router-link
+            >
           </li>
           <li class="sidenav--item">
-            <router-link class="btn btn-dark" :to="{name:'ListagemDisciplinas'}">Disciplinas</router-link>
+            <router-link
+              class="btn btn-dark"
+              :to="{ name: 'ListagemDisciplinas' }"
+              >Disciplinas</router-link
+            >
           </li>
           <li class="sidenav--item">
-            <router-link class="btn btn-dark" :to="{name:'ListagemBibliografias'}">Bibliografias</router-link>
+            <router-link
+              class="btn btn-dark"
+              :to="{ name: 'ListagemBibliografias' }"
+              >Bibliografias</router-link
+            >
           </li>
           <li class="sidenav--item">
-            <router-link class="btn btn-dark" :to="{name:'AssociarDisciplinasProfessor'}">Associar Disciplinas ao Professor</router-link>
+            <router-link
+              class="btn btn-dark"
+              :to="{ name: 'AssociarDisciplinasProfessor' }"
+              >Associar Disciplinas ao Professor</router-link
+            >
+          </li>
+          <li class="sidenav--item">
+            <router-link class="btn btn-dark" :to="{ name: 'AddPlanoAula' }"
+              >Novo Plano de Aula</router-link
+            >
           </li>
         </ul>
       </nav>

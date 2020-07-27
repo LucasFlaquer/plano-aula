@@ -23,13 +23,9 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchAll({
-    commit
-  }) {
+  async fetchAll({ commit }) {
     try {
-      const {
-        data
-      } = await api.get('disciplinas', {
+      const { data } = await api.get('disciplinas', {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
@@ -42,17 +38,10 @@ export const actions = {
         })
     }
   },
-  async fetchCursoDisc({
-    dispatch,
-    commit
-  }) {
+  async fetchCursoDisc({ dispatch, commit }) {
     //retorna as disciplinas do curso qual o usuário é coordenador
-
   },
-  async fetchOne({
-    commit,
-    getters
-  }, id) {
+  async fetchOne({ commit, getters }, id) {
     const disciplina = getters.getOneById(id)
     if (disciplina) {
       commit('SET_DISCIPLINA', disciplina)
@@ -63,13 +52,12 @@ export const actions = {
         }
       })
       const disciplinas = getters.getAll
+      console.log('----set disciplina', response.data)
       commit('SET_DISCIPLINAS', [...disciplinas, response.data])
       commit('SET_DISCIPLINA', response.data)
     }
   },
-  async add({
-    commit
-  }, disciplina) {
+  async add({ commit }, disciplina) {
     try {
       const response = await api.post('/disciplinas', disciplina, {
         headers: {
@@ -83,13 +71,7 @@ export const actions = {
       //
     }
   },
-  async addEmenta({
-    commit,
-    getters
-  }, {
-    id,
-    ementa
-  }) {
+  async addEmenta({ commit, getters }, { id, ementa }) {
     //const disciplina = getters.getOneBy Id(id)
     try {
       const response = await api.patch(`/disciplinas/ementa`, ementa, {
@@ -103,13 +85,7 @@ export const actions = {
       console.warn(error)
     }
   },
-  async update({
-    commit,
-    getters
-  }, {
-    id,
-    disciplina
-  }) {
+  async update({ commit, getters }, { id, disciplina }) {
     try {
       const response = await api.put(`/disciplinas/${id}`, disciplina, {
         headers: {
@@ -132,12 +108,7 @@ export const actions = {
       console.warn(error)
     }
   },
-  async delete({
-    commit,
-    getters
-  }, {
-    id
-  }) {
+  async delete({ commit, getters }, { id }) {
     api
       .delete(`/disciplinas/${id}`, {
         headers: {
