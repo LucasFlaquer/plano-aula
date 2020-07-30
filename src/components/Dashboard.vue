@@ -41,9 +41,10 @@
             >
           </li>
           <li class="sidenav--item">
-            <router-link class="btn btn-dark" :to="{ name: 'AddPlanoAula' }"
-              >Novo Plano de Aula</router-link
-            >
+            <router-link class="btn btn-dark" :to="{ name: 'ListagemPlanoAula' }"
+              >
+              Planos de Aula
+            </router-link>
           </li>
         </ul>
       </nav>

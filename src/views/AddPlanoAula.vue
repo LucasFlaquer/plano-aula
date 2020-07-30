@@ -265,7 +265,7 @@ export default {
     },
     send() {
       // eslint-disable-next-line object-curly-newline
-      const { curso_id, disc_id, turno, aulas } = this
+      const { curso_id,codigo, disc_id, turno, aulas } = this
       const aulas_list = aulas.map(aula => {
         // eslint-disable-next-line object-curly-newline
         const { objetivos, competencias, ...rest } = aula
@@ -281,6 +281,7 @@ export default {
       const data = {
         curso_id,
         disc_id,
+        codigo,
         turno,
         aulas: aulas_list
       }

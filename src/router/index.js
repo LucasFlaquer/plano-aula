@@ -12,6 +12,7 @@ import AddEmenta from '@/views/AddEmenta'
 import EditDisciplina from '@/views/EditDisciplina'
 import EditCurso from '@/views/EditCurso'
 import DisciplinasProfessor from '@/views/DisciplinasProfessor'
+import ListagemPlanoAula from '@/views/ListagemPlanoAula'
 import AddPlanoAula from '@/views/AddPlanoAula'
 import store from '../store'
 
@@ -111,13 +112,22 @@ const routes = [{
     }
   },
   {
-    path: '/plano-aula',
+    path:'/plano-aula',
+    name: 'ListagemPlanoAula',
+    component: ListagemPlanoAula,
+    meta: {
+      secure: true
+    }
+  },
+  {
+    path: '/plano-aula/novo',
     name: 'AddPlanoAula',
     component: AddPlanoAula,
     meta: {
       secure: true
     }
-  }
+  },
+
 ]
 
 const router = new VueRouter({
