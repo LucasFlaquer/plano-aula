@@ -5,18 +5,36 @@
       <div class="form-row">
         <div class="form-group col-8">
           <label for="nome">Nome da Disciplina</label>
-          <input type="text" id="nome" class="form-control" v-model="nome" required />
+          <input
+            type="text"
+            id="nome"
+            class="form-control"
+            v-model="nome"
+            required
+          />
         </div>
         <div class="form-group col-4">
           <label for="semestre">Semestre</label>
-          <select class="form-control" name="semestre" id="semestre" v-model="semestre" required>
+          <select
+            class="form-control"
+            name="semestre"
+            id="semestre"
+            v-model="semestre"
+            required
+          >
             <option value="0">Selecione</option>
-            <option v-for="n in 10" :key="n" :value="n">{{n}}</option>
+            <option v-for="n in 10" :key="n" :value="n">{{ n }}</option>
           </select>
         </div>
         <div class="form-group col-4">
           <label for="teoria">Carga Horária Teoria</label>
-          <select class="form-control" name="teoria" id v-model.number="teoria" required>
+          <select
+            class="form-control"
+            name="teoria"
+            id
+            v-model.number="teoria"
+            required
+          >
             <option value>Selecione</option>
             <option value="0">00</option>
             <option value="20">20</option>
@@ -26,7 +44,12 @@
         </div>
         <div class="form-group col-4">
           <label for="pratica">Carga Horária Pratica</label>
-          <select class="form-control" name="pratica" v-model.number="pratica" required>
+          <select
+            class="form-control"
+            name="pratica"
+            v-model.number="pratica"
+            required
+          >
             <option value>Selecione</option>
             <option value="0">00</option>
             <option value="20">20</option>
@@ -52,7 +75,11 @@
         </div>
         <div class="col-4">
           <h3>Conteúdo</h3>
-          <list-control list_name="conteudo" @updateList="updateList" v-if="!id_disc" />
+          <list-control
+            list_name="conteudo"
+            @updateList="updateList"
+            v-if="!id_disc"
+          />
           <list-control
             list_name="conteudo"
             @updateList="updateList"
@@ -62,7 +89,11 @@
         </div>
         <div class="col-4">
           <h3>Competencias</h3>
-          <list-control list_name="competencias" @updateList="updateList" v-if="!id_disc" />
+          <list-control
+            list_name="competencias"
+            @updateList="updateList"
+            v-if="!id_disc"
+          />
           <list-control
             list_name="competencias"
             @updateList="updateList"
@@ -72,7 +103,11 @@
         </div>
         <div class="col-4">
           <h3>Objetivos</h3>
-          <list-control list_name="objetivos" @updateList="updateList" v-if="!id_disc" />
+          <list-control
+            list_name="objetivos"
+            @updateList="updateList"
+            v-if="!id_disc"
+          />
           <list-control
             list_name="objetivos"
             @updateList="updateList"
@@ -99,11 +134,15 @@
               label="nome"
               track-by="nome"
             >
-              <template slot="selection" slot-scope="{ values, search, isOpen }">
+              <template
+                slot="selection"
+                slot-scope="{ values, search, isOpen }"
+              >
                 <span
                   class="multiselect__single"
                   v-if="values.length &amp;&amp; !isOpen"
-                >{{ values.length }} bibliografias selecionadas</span>
+                  >{{ values.length }} bibliografias selecionadas</span
+                >
               </template>
             </multiselect>
             <p class="mt-3">
@@ -111,7 +150,7 @@
             </p>
             <ul class="list">
               <li v-for="bibliografia in basica" :key="bibliografia.id">
-                <label for>{{bibliografia.nome}}</label>
+                <label for>{{ bibliografia.nome }}</label>
               </li>
             </ul>
           </div>
@@ -130,11 +169,15 @@
               label="nome"
               track-by="nome"
             >
-              <template slot="selection" slot-scope="{ values, search, isOpen }">
+              <template
+                slot="selection"
+                slot-scope="{ values, search, isOpen }"
+              >
                 <span
                   class="multiselect__single"
                   v-if="values.length &amp;&amp; !isOpen"
-                >{{ values.length }} bibliografias selecionadas</span>
+                  >{{ values.length }} bibliografias selecionadas</span
+                >
               </template>
             </multiselect>
             <p class="mt-3">
@@ -142,7 +185,7 @@
             </p>
             <ul class="list">
               <li v-for="bibliografia in complementar" :key="bibliografia.id">
-                <label for>{{bibliografia.nome}}</label>
+                <label for>{{ bibliografia.nome }}</label>
               </li>
             </ul>
           </div>
@@ -262,5 +305,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
