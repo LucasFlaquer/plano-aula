@@ -207,8 +207,8 @@ export default {
   props: {
     id_disc: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -221,14 +221,14 @@ export default {
       competencias: [],
       objetivos: [],
       basica: [],
-      complementar: []
+      complementar: [],
     }
   },
   methods: {
     submit() {
       const form = this.$refs.form
-      const libs_basicas = this.basica.map(el => el.id)
-      const libs_complementares = this.complementar.map(el => el.id)
+      const libs_basicas = this.basica.map((el) => el.id)
+      const libs_complementares = this.complementar.map((el) => el.id)
       const data = {
         nome: this.nome,
         teoria: this.teoria,
@@ -238,10 +238,10 @@ export default {
           descricao: this.descricao,
           conteudo: this.conteudo,
           competencias: this.competencias,
-          objetivos: this.objetivos
+          objetivos: this.objetivos,
         },
         basica: libs_basicas,
-        complementar: libs_complementares
+        complementar: libs_complementares,
       }
       if (form.checkValidity()) {
         if (this.id_disc) this.update(data)
@@ -253,7 +253,7 @@ export default {
       this.addDisciplina(data).then(() => {
         console.log('sucesss---------')
         this.$router.push({
-          name: 'ListagemDisciplina'
+          name: 'ListagemDisciplina',
         })
       })
     },
@@ -261,30 +261,30 @@ export default {
       console.log(data)
       this.updateDisciplina({
         id: this.id_disc,
-        disciplina: data
+        disciplina: data,
       }).then(() => {
         this.$router.push({
-          name: 'ListagemDisciplinas'
+          name: 'ListagemDisciplinas',
         })
       })
     },
     updateList(data) {
       console.log('atualizei lista')
       console.log(data)
-      this[data.list_name] = data.items.map(item => item)
+      this[data.list_name] = data.items.map((item) => item)
     },
     ...mapActions({
       fetchBibliografias: 'bibliografiaModule/fetchAll',
       addDisciplina: 'disciplinaModule/add',
       updateDisciplina: 'disciplinaModule/update',
-      fetchDisciplina: 'disciplinaModule/fetchOne'
-    })
+      fetchDisciplina: 'disciplinaModule/fetchOne',
+    }),
   },
   computed: {
     ...mapState({
-      bibliografias: state => state.bibliografiaModule.bibliografias,
-      disciplina: state => state.disciplinaModule.disciplina
-    })
+      bibliografias: (state) => state.bibliografiaModule.bibliografias,
+      disciplina: (state) => state.disciplinaModule.disciplina,
+    }),
   },
   created() {
     this.fetchBibliografias()
@@ -300,8 +300,8 @@ export default {
   },
   components: {
     Multiselect,
-    ListControl
-  }
+    ListControl,
+  },
 }
 </script>
 

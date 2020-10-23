@@ -7,7 +7,7 @@ export const state = {
   disciplinas: [],
   disciplina: {
     //
-  }
+  },
 }
 
 export const mutations = {
@@ -19,7 +19,7 @@ export const mutations = {
   },
   SET_DISCIPLINA(state, disciplina) {
     state.disciplina = disciplina
-  }
+  },
 }
 
 export const actions = {
@@ -27,14 +27,14 @@ export const actions = {
     try {
       const { data } = await api.get('disciplinas', {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
       })
       commit('SET_DISCIPLINAS', data)
     } catch (error) {
       if (error.response.status === 401 || error.response.status === 403)
         router.push({
-          name: 'Login'
+          name: 'Login',
         })
     }
   },
@@ -48,8 +48,8 @@ export const actions = {
     } else {
       const response = await api.get(`/disciplinas/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       })
       const disciplinas = getters.getAll
       console.log('----set disciplina', response.data)
@@ -61,8 +61,8 @@ export const actions = {
     try {
       const response = await api.post('/disciplinas', disciplina, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
       })
       console.log(response.data)
       commit('ADD_DISCIPLINA', response.data)
@@ -77,8 +77,8 @@ export const actions = {
       const response = await api.patch(`/disciplinas/ementa`, ementa, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
-          id_disc: id
-        }
+          id_disc: id,
+        },
       })
       console.log(response.data)
     } catch (error) {
@@ -89,12 +89,12 @@ export const actions = {
     try {
       const response = await api.put(`/disciplinas/${id}`, disciplina, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
       })
       console.log('data->', response.data)
       const disciplinas = getters.getAll
-      const newList = disciplinas.map(el => {
+      const newList = disciplinas.map((el) => {
         if (el.id == response.data.id) {
           console.log(el.id)
           return response.data
@@ -112,27 +112,27 @@ export const actions = {
     api
       .delete(`/disciplinas/${id}`, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
       })
-      .then(response => {
+      .then((response) => {
         if (response.status == 200) {
           const oldList = getters.getAll
-          const newList = oldList.filter(el => el.id != id)
+          const newList = oldList.filter((el) => el.id != id)
           commit('SET_DISCIPLINAS', newList)
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.warn(error)
       })
-  }
+  },
 }
 
 export const getters = {
-  getAll: state => {
+  getAll: (state) => {
     return state.disciplinas
   },
-  getOneById: state => id => {
-    return state.disciplinas.find(el => el.id === id) || null
-  }
+  getOneById: (state) => (id) => {
+    return state.disciplinas.find((el) => el.id === id) || null
+  },
 }

@@ -41,8 +41,10 @@
             >
           </li>
           <li class="sidenav--item">
-            <router-link class="btn btn-dark" :to="{ name: 'ListagemPlanoAula' }"
-              >
+            <router-link
+              class="btn btn-dark"
+              :to="{ name: 'ListagemPlanoAula' }"
+            >
               Planos de Aula
             </router-link>
           </li>
@@ -65,18 +67,18 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'Dashboard',
   computed: mapState({
-    user: state => state.userModule.userLogged
+    user: (state) => state.userModule.userLogged,
   }),
   methods: {
     ...mapActions({
       logout: 'userModule/logout',
-      Authenticate: 'userModule/Authenticate'
-    })
+      Authenticate: 'userModule/Authenticate',
+    }),
   },
   created() {
     this.Authenticate()
     // console.log(this.user);
-  }
+  },
 }
 </script>
 

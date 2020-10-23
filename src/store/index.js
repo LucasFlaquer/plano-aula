@@ -12,23 +12,15 @@ import * as planoAulaModule from '@/store/modules/PlanoAulaModule'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-
-  },
-  mutations: {
-
-  },
-  actions: {
-
-  },
-  getters: {
-
-  },
+  state: {},
+  mutations: {},
+  actions: {},
+  getters: {},
   modules: {
     cursoModule,
     userModule,
     disciplinaModule,
     bibliografiaModule,
-    planoAulaModule
-  }
+    planoAulaModule,
+  },
 })

@@ -1,7 +1,12 @@
 <template>
   <dashboard>
     <h1>Editar Curso</h1>
-    <form class="form form__curso" ref="form" @submit.prevent="submit" novalidate>
+    <form
+      class="form form__curso"
+      ref="form"
+      @submit.prevent="submit"
+      novalidate
+    >
       <fieldset>
         <div class="row">
           <div class="form-group col-4">
@@ -10,9 +15,16 @@
           </div>
           <div class="form-group col-4">
             <label for="coordenador">Coordenador</label>
-            <select name="coordenador" id="coordenador" class="form-control" v-model="user_id">
+            <select
+              name="coordenador"
+              id="coordenador"
+              class="form-control"
+              v-model="user_id"
+            >
               <option value>Selecione</option>
-              <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
+              <option v-for="user in users" :key="user.id" :value="user.id">
+                {{ user.name }}
+              </option>
             </select>
           </div>
         </div>
@@ -31,7 +43,9 @@
             />
           </div>
           <div class="form-group col-auto">
-            <label for="semestres">Quantidade de Semestres: {{ grade.semestres.length }}</label>
+            <label for="semestres"
+              >Quantidade de Semestres: {{ grade.semestres.length }}</label
+            >
           </div>
           <div class="form-group col">
             <b-button
@@ -52,7 +66,11 @@
           </div>
         </div>
         <div class="grade">
-          <div class="grade--item" v-for="(semestre, index) in grade.semestres" :key="index">
+          <div
+            class="grade--item"
+            v-for="(semestre, index) in grade.semestres"
+            :key="index"
+          >
             <div class="row align-items-center">
               <div class="col-4">
                 <label>Semestre {{ semestre.id }}</label>
@@ -61,7 +79,7 @@
                   <multiselect
                     v-model="semestre.disciplinas"
                     :options="
-                      disciplinas.filter(el => el.semestre === semestre.id)
+                      disciplinas.filter((el) => el.semestre === semestre.id)
                     "
                     :multiple="true"
                     :close-on-select="false"
@@ -71,11 +89,15 @@
                     label="nome"
                     track-by="nome"
                   >
-                    <template slot="selection" slot-scope="{ values, search, isOpen }">
+                    <template
+                      slot="selection"
+                      slot-scope="{ values, search, isOpen }"
+                    >
                       <span
                         class="multiselect__single"
                         v-if="values.length &amp;&amp; !isOpen"
-                      >{{ values.length }} Disciplinas selecionadas</span>
+                        >{{ values.length }} Disciplinas selecionadas</span
+                      >
                     </template>
                   </multiselect>
                 </div>
@@ -85,7 +107,9 @@
                   <li
                     v-for="disciplina in semestre.disciplinas"
                     :key="disciplina.id"
-                  >{{ disciplina.nome }}</li>
+                  >
+                    {{ disciplina.nome }}
+                  </li>
                 </ul>
               </div>
             </div>
@@ -113,16 +137,16 @@ export default {
       user_id: '',
       grade: {
         ano: 0,
-        semestres: []
-      }
+        semestres: [],
+      },
     }
   },
   computed: {
     ...mapState({
-      users: state => state.userModule.users,
-      disciplinas: state => state.disciplinaModule.disciplinas,
-      curso: state => state.cursoModule.curso
-    })
+      users: (state) => state.userModule.users,
+      disciplinas: (state) => state.disciplinaModule.disciplinas,
+      curso: (state) => state.cursoModule.curso,
+    }),
   },
   methods: {
     submit() {
@@ -132,8 +156,8 @@ export default {
     },
     send() {
       let disc_list = []
-      this.grade.semestres.forEach(el => {
-        el.disciplinas.forEach(disc => {
+      this.grade.semestres.forEach((el) => {
+        el.disciplinas.forEach((disc) => {
           disc_list.push(disc.id)
         })
       })
@@ -143,20 +167,22 @@ export default {
         user_id: this.user_id,
         grade: {
           ano: this.grade.ano,
-          disciplinas: disc_list
-        }
+          disciplinas: disc_list,
+        },
       }
       this.updateCurso({
         curso: data,
-        id: this.curso.id
+        id: this.curso.id,
       }).then(() => {
-        this.$router.push({ name: 'ListagemCursos' })
+        this.$router.push({
+          name: 'ListagemCursos',
+        })
       })
     },
     addSemestre() {
       this.grade.semestres.push({
         id: this.grade.semestres.length + 1,
-        disciplinas: []
+        disciplinas: [],
       })
     },
     removeLastSemestre() {
@@ -164,24 +190,24 @@ export default {
     },
     ...mapActions({
       getDataforUpdate: 'cursoModule/getDataForUpdate',
-      updateCurso: 'cursoModule/update'
-    })
+      updateCurso: 'cursoModule/update',
+    }),
   },
   created() {
     this.getDataforUpdate(this.$route.params.id).then(() => {
       this.nome = this.curso.nome
       this.user_id = this.curso.coordenador.id
       this.grade.ano = this.curso.grades[0].ano
-      this.curso.grades[0].disciplinas.forEach(dc => {
-        const disc = this.disciplinas.find(d => d.id === dc.id)
-        const sem = this.grade.semestres.find(el => el.id === disc.semestre)
+      this.curso.grades[0].disciplinas.forEach((dc) => {
+        const disc = this.disciplinas.find((d) => d.id === dc.id)
+        const sem = this.grade.semestres.find((el) => el.id === disc.semestre)
         if (sem) {
           const index = this.grade.semestres.indexOf(sem)
           this.grade.semestres[index].disciplinas.push(disc)
         } else {
           this.grade.semestres.push({
             id: disc.semestre,
-            disciplinas: [disc]
+            disciplinas: [disc],
           })
         }
       })
@@ -189,8 +215,8 @@ export default {
   },
   components: {
     Dashboard,
-    Multiselect
-  }
+    Multiselect,
+  },
 }
 </script>
 

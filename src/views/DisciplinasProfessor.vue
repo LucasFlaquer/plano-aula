@@ -14,9 +14,9 @@
             required
           >
             <option value>Selecione um professor</option>
-            <option v-for="user in users" :key="user.id" :value="user.id">{{
-              user.name
-            }}</option>
+            <option v-for="user in users" :key="user.id" :value="user.id">
+              {{ user.name }}
+            </option>
           </select>
         </div>
         <div class="form-group col-6">
@@ -61,16 +61,16 @@ export default {
       prof: Object,
       prof_id: '',
       disciplinasProfessor: [],
-      disciplinas: []
+      disciplinas: [],
     }
   },
   computed: {
     ...mapState({
-      loggedUser: state => state.userModule.userLogged,
-      users: state => state.userModule.users,
-      professor: state => state.userModule.user,
-      curso: state => state.cursoModule.curso
-    })
+      loggedUser: (state) => state.userModule.userLogged,
+      users: (state) => state.userModule.users,
+      professor: (state) => state.userModule.user,
+      curso: (state) => state.cursoModule.curso,
+    }),
   },
   methods: {
     submit() {
@@ -79,21 +79,21 @@ export default {
       else validaForm(form)
     },
     send() {
-      const disc_ids = this.disciplinasProfessor.map(el => el.id)
+      const disc_ids = this.disciplinasProfessor.map((el) => el.id)
       console.log(disc_ids)
 
       this.patchDisciplinas({
         id: this.prof_id,
-        disc_ids
+        disc_ids,
       })
     },
     ...mapActions({
       fetchAllUsers: 'userModule/fetchAll',
       fetchDiscCurso: 'cursoModule/fetchOneCoordenador',
-      patchDisciplinas: 'userModule/patchDisciplinas'
+      patchDisciplinas: 'userModule/patchDisciplinas',
     }),
     atualizarDisciplinas() {
-      const user = this.users.find(user => user.id === this.prof_id)
+      const user = this.users.find((user) => user.id === this.prof_id)
       console.log('--- professor --->:', user.name)
       console.log(user)
       console.log('------------------')
@@ -103,11 +103,11 @@ export default {
       console.log(this.disciplinasProfessor)
 
       console.log('atualizar as disciplinas')
-    }
+    },
   },
   components: {
     Dashboard,
-    Multiselect
+    Multiselect,
   },
   created() {
     console.log('created')
@@ -122,7 +122,7 @@ export default {
   },
   async beforeRouteEnter(to, from, next) {
     console.log('entrei na rota')
-    await next(vm => {
+    await next((vm) => {
       if (vm.loggedUser.access.coordenador || vm.loggedUser.access.admin) {
         console.log('vaidei user')
         next()
@@ -130,7 +130,7 @@ export default {
         next('/')
       }
     })
-  }
+  },
   // beforeRouteUpdate(to, from, next) {
   //   console.log('entrei na rota')
   //   if (this.loggedUser.access.coordenador || this.loggedUser.access.admin) {

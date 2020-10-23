@@ -1,7 +1,9 @@
 <template>
   <dashboard>
     <h1>Meus Planos de Aula</h1>
-    <router-link class="btn btn-primary" :to="{name:'AddPlanoAula'}">Adicionar</router-link>
+    <router-link class="btn btn-primary" :to="{ name: 'AddPlanoAula' }"
+      >Adicionar</router-link
+    >
     <planos-aula v-if="loading" />
   </dashboard>
 </template>
@@ -35,5 +37,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

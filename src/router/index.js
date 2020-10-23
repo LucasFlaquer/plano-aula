@@ -18,13 +18,14 @@ import store from '../store'
 
 Vue.use(VueRouter)
 
-const routes = [{
+const routes = [
+  {
     path: '/',
     name: 'Home',
     component: Home,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
   {
     path: '/login',
@@ -36,108 +37,106 @@ const routes = [{
     name: 'ListagemCursos',
     component: ListagemCursos,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
   {
     path: '/cursos/novo',
     name: 'AddCurso',
     component: AddCurso,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
   {
     path: '/cursos/:id/editar',
     name: 'EditCurso',
     component: EditCurso,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
   {
     path: '/disciplinas',
     name: 'ListagemDisciplinas',
     component: ListagemDisciplinas,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
   {
     path: '/disciplinas/nova',
     name: 'AddDisciplina',
     component: AddDisciplina,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
   {
     path: '/disciplinas/:id',
     name: 'DetalheDisciplina',
     component: DetalheDisciplina,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
   {
     path: '/disciplinas/:id/editar',
     name: 'EditDisciplina',
     component: EditDisciplina,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
   {
     path: '/disciplinas/:id/ementa',
     name: 'AddEmenta',
     component: AddEmenta,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
   {
     path: '/bibliografias',
     name: 'ListagemBibliografias',
     component: ListagemBibliografias,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
   {
     path: '/professor/disciplinas',
     name: 'AssociarDisciplinasProfessor',
     component: DisciplinasProfessor,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
   {
-    path:'/plano-aula',
+    path: '/plano-aula',
     name: 'ListagemPlanoAula',
     component: ListagemPlanoAula,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
   {
     path: '/plano-aula/novo',
     name: 'AddPlanoAula',
     component: AddPlanoAula,
     meta: {
-      secure: true
-    }
+      secure: true,
+    },
   },
-
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
 })
 router.beforeEach(async (to, from, next) => {
-  if (to.meta.secure)
-    await store.dispatch('userModule/Authenticate', null)
+  if (to.meta.secure) await store.dispatch('userModule/Authenticate', null)
   next()
 })
 

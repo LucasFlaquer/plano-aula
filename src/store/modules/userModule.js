@@ -10,7 +10,7 @@ export const state = {
   },
   userLogged: {
     //
-  }
+  },
 }
 
 export const mutations = {
@@ -22,7 +22,7 @@ export const mutations = {
   },
   SET_USER_LOGGED(state, user) {
     state.userLogged = user
-  }
+  },
 }
 
 export const actions = {
@@ -30,8 +30,8 @@ export const actions = {
     try {
       const response = await api.get('/users', {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
       })
       console.log('users', response.data)
       commit('SET_USERS', response.data)
@@ -39,7 +39,7 @@ export const actions = {
       console.warn(error)
       if (error.response.status == 403 || error.response.status === 401)
         router.push({
-          name: 'Login'
+          name: 'Login',
         })
     }
   },
@@ -52,15 +52,15 @@ export const actions = {
       try {
         const response = await api.get(`users/${id}`, {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
         })
         commit('SET_USER', response.data)
       } catch (error) {
         console.warn(error.response)
         if (error.response.status == 403 || error.response.status === 401)
           router.push({
-            name: 'Login'
+            name: 'Login',
           })
       }
     }
@@ -69,13 +69,13 @@ export const actions = {
     api
       .get('/coordenadores', {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
       })
-      .then(response => {
+      .then((response) => {
         commit('SET_USERS', response.data)
       })
-      .catch(error => {
+      .catch((error) => {
         console.warn(error)
       })
   },
@@ -85,11 +85,11 @@ export const actions = {
       const { name, logged_in_as: email } = response.data
       commit('SET_USER_LOGGED', {
         name,
-        email
+        email,
       })
       localStorage.setItem('token', response.data.access_token)
       router.push({
-        name: 'Home'
+        name: 'Home',
       })
     } catch (error) {
       console.warn(error.response)
@@ -101,45 +101,45 @@ export const actions = {
     try {
       const response = await api.get('/users/me', {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
       })
       commit('SET_USER_LOGGED', response.data)
     } catch (error) {
       console.warn(error.response)
       //deu algum erro aqui entao já manda para a login
       router.push({
-        name: 'Login'
+        name: 'Login',
       })
     }
   },
   logout() {
     localStorage.removeItem('token')
     router.push({
-      name: 'Login'
+      name: 'Login',
     })
   },
   async patchDisciplinas({ commit, getters }, { id, disc_ids }) {
     const data = {
-      disc_ids
+      disc_ids,
     }
     try {
       const response = await api.patch('/users/disciplinas', data, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token'),
-          id_user: id
-        }
+          id_user: id,
+        },
       })
       console.log('------------------ usuario atualizaddo')
       const users = getters.getAll
-      const newList = users.map(user => {
+      const newList = users.map((user) => {
         if (user.id == response.data.id)
           return {
             id: response.data.id,
             name: user.name,
             email: user.email,
             disciplinas_ministradas: response.data.disciplinas_ministradas,
-            acccess: user.access
+            acccess: user.access,
           }
         else return user
       })
@@ -147,14 +147,14 @@ export const actions = {
     } catch (error) {
       console.warn(error)
     }
-  }
+  },
 }
 
 export const getters = {
   getAll() {
     return state.users
   },
-  getById: state => id => {
-    return state.users.find(user => user.id === id)
-  }
+  getById: (state) => (id) => {
+    return state.users.find((user) => user.id === id)
+  },
 }

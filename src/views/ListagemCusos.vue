@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       modalTitle: 'Adicionar Curso',
-      idCursoSelecionado: ''
+      idCursoSelecionado: '',
     }
   },
   created() {
@@ -58,22 +58,22 @@ export default {
   },
   computed: {
     ...mapState({
-      cursos: state => state.cursoModule.cursos
-    })
+      cursos: (state) => state.cursoModule.cursos,
+    }),
   },
   methods: {
     ...mapActions({
-      deleteCurso: 'cursoModule/deleteCurso'
+      deleteCurso: 'cursoModule/deleteCurso',
     }),
     handleFormOpen(id) {
       this.idCursoSelecionado = id
       if (id.length > 1) this.modalTitle = 'Editar Curso'
       else this.modalTitle = 'Adicionar Curso'
-    }
+    },
   },
   components: {
-    Dashboard
-  }
+    Dashboard,
+  },
 }
 </script>
 

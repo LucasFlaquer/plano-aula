@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div class="login--body" :class="sending ? 'sending': ''">
+    <div class="login--body" :class="sending ? 'sending' : ''">
       <h1>Gerenciamento de Plano de Aula</h1>
       <form @submit.prevent="submit" class="form">
         <template v-if="!newUser">
@@ -28,7 +28,13 @@
         </template>
         <template v-else>
           <div class="form-group">
-            <input class="form-control" type="text" placeholder="Nome" v-model="user.name" required />
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Nome"
+              v-model="user.name"
+              required
+            />
           </div>
           <div class="form-group">
             <input
@@ -81,10 +87,10 @@ export default {
       user: {
         email: 'lucas.teste@teste.com',
         password: '123456',
-        name: null
+        name: null,
       },
       newUser: false,
-      sending: false
+      sending: false,
     }
   },
   methods: {
@@ -97,8 +103,8 @@ export default {
     AddNewUser() {
       this.newUser = !this.newUser
     },
-    ...mapActions(['userModule/makeLogin'])
-  }
+    ...mapActions(['userModule/makeLogin']),
+  },
 }
 </script>
 

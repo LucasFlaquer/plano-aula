@@ -8,11 +8,11 @@ const userService = {
   async me(token) {
     const response = await api.get('/users/me', {
       headers: {
-        Authorization: 'Bearer ' + token
-      }
+        Authorization: 'Bearer ' + token,
+      },
     })
     return response.data
-  }
+  },
 }
 
 export default userService

@@ -8,7 +8,7 @@ export const state = {
   bibliografias: [],
   bibliografia: {
     //
-  }
+  },
 }
 
 export const mutations = {
@@ -20,7 +20,7 @@ export const mutations = {
   },
   SET_BIBLIOGRAFIA(state, bibliografia) {
     state.bibliografia = bibliografia
-  }
+  },
 }
 
 export const actions = {
@@ -28,16 +28,16 @@ export const actions = {
     api
       .get('/bibliografias', {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
       })
-      .then(response => {
+      .then((response) => {
         commit('SET_BIBLIOGRAFIAS', response.data)
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.response.status == 403 || error.response.status == 401)
           router.push({
-            name: 'Login'
+            name: 'Login',
           })
       })
   },
@@ -49,15 +49,15 @@ export const actions = {
       try {
         const response = await api.get(`/bibliografias/${id}`, {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
         })
         commit('SET_BIBLIOGRAFIA', response.data)
       } catch (error) {
         console.warn(error)
         if (error.response.status === 401 || error.response.status === 403)
           router.push({
-            name: 'Login'
+            name: 'Login',
           })
       }
     }
@@ -66,8 +66,8 @@ export const actions = {
     try {
       const response = await api.post('/bibliografias', bibliografia, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
       })
       commit('ADD_BIBLIOGRAFIA', response.data)
     } catch (error) {
@@ -75,7 +75,7 @@ export const actions = {
       switch (status) {
         case 403:
           router.push({
-            name: 'Login'
+            name: 'Login',
           })
           break
         case 422:
@@ -89,17 +89,17 @@ export const actions = {
     try {
       const response = await api.put(`/bibliografias/${id}`, bibliografia, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
       })
       const bibliografias = getters.getAll
       console.log(bibliografias)
-      const newList = bibliografias.map(bibliografia => {
+      const newList = bibliografias.map((bibliografia) => {
         if (bibliografia.id == response.data.id)
           return {
             id: response.data.id,
             nome: response.data.nome,
-            conteudo: response.data.conteudo
+            conteudo: response.data.conteudo,
           }
         else return bibliografia
       })
@@ -109,7 +109,7 @@ export const actions = {
       switch (status) {
         case 403:
           router.push({
-            name: 'Login'
+            name: 'Login',
           })
           break
         case 422:
@@ -124,25 +124,25 @@ export const actions = {
     api
       .delete(`/bibliografias/${id}`, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
       })
-      .then(response => {
+      .then((response) => {
         const bibliografias = getters.getAll
-        const newList = bibliografias.filter(el => el.id !== id)
+        const newList = bibliografias.filter((el) => el.id !== id)
         commit('SET_BIBLIOGRAFIAS', newList)
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
       })
-  }
+  },
 }
 
 export const getters = {
-  getAll: state => {
+  getAll: (state) => {
     return state.bibliografias
   },
-  getById: state => id => {
-    return state.bibliografias.find(bibliografia => bibliografia.id === id)
-  }
+  getById: (state) => (id) => {
+    return state.bibliografias.find((bibliografia) => bibliografia.id === id)
+  },
 }

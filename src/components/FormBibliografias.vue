@@ -29,17 +29,17 @@ export default {
   props: {
     bibliografiaId: {
       type: String,
-      default: null
+      default: null,
     },
     inModal: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       nome: '',
-      conteudo: ''
+      conteudo: '',
     }
   },
   methods: {
@@ -53,14 +53,14 @@ export default {
     addNew() {
       this.addBibliografia({
         nome: this.nome,
-        conteudo: this.conteudo
+        conteudo: this.conteudo,
       })
         .then(() => {
           if (this.inModal) {
             this.$emit('closeModal')
           }
         })
-        .catch(err => {
+        .catch((err) => {
           alert(err.satus, err.message)
         })
     },
@@ -68,22 +68,22 @@ export default {
       this.updateBibliografia({
         bibliografia: {
           nome: this.nome,
-          conteudo: this.conteudo
+          conteudo: this.conteudo,
         },
-        id: this.bibliografiaId
+        id: this.bibliografiaId,
       })
         .then(() => {
           if (this.inModal) this.$emit('closeModal')
         })
-        .catch(err => {
+        .catch((err) => {
           alert(err.satus, err.message)
         })
     },
     ...mapActions({
       fetchBibliografia: 'bibliografiaModule/fetchOne',
       addBibliografia: 'bibliografiaModule/add',
-      updateBibliografia: 'bibliografiaModule/update'
-    })
+      updateBibliografia: 'bibliografiaModule/update',
+    }),
   },
   created() {
     if (this.bibliografiaId.length > 1) {
@@ -95,9 +95,9 @@ export default {
   },
   computed: {
     ...mapState({
-      bibliografia: state => state.bibliografiaModule.bibliografia
-    })
-  }
+      bibliografia: (state) => state.bibliografiaModule.bibliografia,
+    }),
+  },
 }
 </script>
 

@@ -85,7 +85,7 @@
                   <multiselect
                     v-model="semestre.disciplinas"
                     :options="
-                      disciplinas.filter(el => el.semestre === semestre.id)
+                      disciplinas.filter((el) => el.semestre === semestre.id)
                     "
                     :multiple="true"
                     :close-on-select="false"
@@ -141,9 +141,9 @@ export default {
       user_id: '',
       grade: {
         ano: 0,
-        semestres: []
+        semestres: [],
       },
-      semestres_qtd: 1
+      semestres_qtd: 1,
     }
   },
   methods: {
@@ -154,8 +154,8 @@ export default {
     },
     send() {
       let disc_list = []
-      this.grade.semestres.forEach(el => {
-        el.disciplinas.forEach(disc => {
+      this.grade.semestres.forEach((el) => {
+        el.disciplinas.forEach((disc) => {
           disc_list.push(disc.id)
         })
       })
@@ -165,20 +165,20 @@ export default {
         user_id: this.user_id,
         grade: {
           ano: this.grade.ano,
-          disciplinas: disc_list
-        }
+          disciplinas: disc_list,
+        },
       }
       console.log(data)
       this.addCurso(data).then(() => {
         this.$router.push({
-          name: 'ListagemCursos'
+          name: 'ListagemCursos',
         })
       })
     },
     addSemestre() {
       this.grade.semestres.push({
         id: this.grade.semestres.length + 1,
-        disciplinas: []
+        disciplinas: [],
       })
       console.log(this.grade.semestres)
     },
@@ -188,14 +188,14 @@ export default {
     ...mapActions({
       fetchUsers: 'userModule/fetchAll',
       fetchDisciplinas: 'disciplinaModule/fetchAll',
-      addCurso: 'cursoModule/add'
-    })
+      addCurso: 'cursoModule/add',
+    }),
   },
   computed: {
     ...mapState({
-      users: state => state.userModule.users,
-      disciplinas: state => state.disciplinaModule.disciplinas
-    })
+      users: (state) => state.userModule.users,
+      disciplinas: (state) => state.disciplinaModule.disciplinas,
+    }),
   },
   created() {
     this.fetchUsers()
@@ -203,7 +203,7 @@ export default {
   },
   components: {
     Dashboard,
-    Multiselect
-  }
+    Multiselect,
+  },
 }
 </script>

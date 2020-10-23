@@ -1,31 +1,43 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
-  extends: ['plugin:vue/essential', 'eslint:recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:vue/essential',
+    'prettier',
+    'plugin:prettier/recommended',
+  ],
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-unused-vars': 'off',
-    //'object-curly-new-line': 'off',
-    'object-curly-newline': [
+    // 'object-curly-new-line': 'off',
+    'linebreak-style': 'off',
+    'prettier/prettier': [
       'error',
       {
-        ObjectExpression: 'always',
-        ObjectPattern: {
-          multiline: true,
-          minProperties: 3
-        },
-        ImportDeclaration: 'never',
-        ExportDeclaration: {
-          multiline: true,
-          minProperties: 3
-        }
-      }
-    ]
-  }
+        endOfLine: 'auto',
+      },
+    ],
+    // 'object-curly-newline': [
+    //   'error',
+    //   {
+    //     ObjectExpression: 'always',
+    //     ObjectPattern: {
+    //       multiline: true,
+    //       minProperties: 3,
+    //     },
+    //     ImportDeclaration: 'never',
+    //     ExportDeclaration: {
+    //       multiline: true,
+    //       minProperties: 3,
+    //     },
+    //   },
+    // ],
+  },
 }

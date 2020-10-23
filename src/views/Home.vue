@@ -15,7 +15,7 @@ import Dashboard from '@/components/Dashboard.vue'
 export default {
   name: 'Home',
   components: {
-    Dashboard
+    Dashboard,
   },
 }
 </script>

@@ -26,12 +26,9 @@
               @change="handleCursoSelected"
             >
               <option value="">Selecione um curso</option>
-              <option
-                v-for="curso in cursos"
-                :key="curso.id"
-                :value="curso.id"
-                >{{ curso.nome }}</option
-              >
+              <option v-for="curso in cursos" :key="curso.id" :value="curso.id">
+                {{ curso.nome }}
+              </option>
             </select>
           </div>
           <div class="form-group col-3">
@@ -48,8 +45,9 @@
                 v-for="disc in disciplinas"
                 :key="disc.id"
                 :value="disc.id"
-                >{{ disc.nome }}</option
               >
+                {{ disc.nome }}
+              </option>
             </select>
           </div>
           <div class="form-group col-3">
@@ -249,13 +247,13 @@ export default {
       aulas: [],
       value: [],
       objetivos: [],
-      competencias: []
+      competencias: [],
     }
   },
   computed: mapState({
-    professor: state => state.userModule.userLogged,
-    cursos: state => state.cursoModule.cursos,
-    disciplina: state => state.disciplinaModule.disciplina
+    professor: (state) => state.userModule.userLogged,
+    cursos: (state) => state.cursoModule.cursos,
+    disciplina: (state) => state.disciplinaModule.disciplina,
   }),
   methods: {
     submit() {
@@ -265,16 +263,16 @@ export default {
     },
     send() {
       // eslint-disable-next-line object-curly-newline
-      const { curso_id,codigo, disc_id, turno, aulas } = this
-      const aulas_list = aulas.map(aula => {
+      const { curso_id, codigo, disc_id, turno, aulas } = this
+      const aulas_list = aulas.map((aula) => {
         // eslint-disable-next-line object-curly-newline
         const { objetivos, competencias, ...rest } = aula
-        const objetivos_list = aula.objetivos.map(el => el.nome)
-        const competencias_list = aula.competencias.map(el => el.id)
+        const objetivos_list = aula.objetivos.map((el) => el.nome)
+        const competencias_list = aula.competencias.map((el) => el.id)
         return {
           objetivos: objetivos_list,
           competencias: competencias_list,
-          ...rest
+          ...rest,
         }
       })
       console.log(aulas_list)
@@ -283,22 +281,22 @@ export default {
         disc_id,
         codigo,
         turno,
-        aulas: aulas_list
+        aulas: aulas_list,
       }
       this.addPlano(data)
       console.log(data)
     },
     handleCursoSelected() {
-      const curso = this.cursos.find(curso => curso.id === this.curso_id)
+      const curso = this.cursos.find((curso) => curso.id === this.curso_id)
       console.log('disciplinas do curso -->', curso.grades[0].disciplinas)
       console.log(
         'disciplinas do professor-->',
-        this.professor.disciplinas_ministradas
+        this.professor.disciplinas_ministradas,
       )
       const arr = curso.grades[0].disciplinas.filter(
-        a1 =>
-          this.professor.disciplinas_ministradas.filter(a2 => a1.id == a2.id)
-            .length
+        (a1) =>
+          this.professor.disciplinas_ministradas.filter((a2) => a1.id == a2.id)
+            .length,
       )
       console.log(arr)
       this.disciplinas = arr
@@ -308,16 +306,16 @@ export default {
         this.objetivos = this.disciplina.ementa.objetivos.map((el, index) => {
           return {
             id: index,
-            nome: el
+            nome: el,
           }
         })
         this.competencias = this.disciplina.ementa.competencias.map(
           (el, index) => {
             return {
               id: index,
-              nome: el
+              nome: el,
             }
-          }
+          },
         )
       })
     },
@@ -331,7 +329,7 @@ export default {
         avaliacao: '-',
         recursos: '-',
         tipo: '',
-        roteiro: 'Não se aplica'
+        roteiro: 'Não se aplica',
       })
     },
     removeLastAula() {
@@ -340,16 +338,16 @@ export default {
     ...mapActions({
       fetchCursos: 'cursoModule/fetchAll',
       fetchDisciplina: 'disciplinaModule/fetchOne',
-      addPlano: 'planoAulaModule/addNew'
-    })
+      addPlano: 'planoAulaModule/addNew',
+    }),
   },
   created() {
     this.fetchCursos()
   },
   components: {
     Dashboard,
-    Multiselect
-  }
+    Multiselect,
+  },
 }
 </script>
 

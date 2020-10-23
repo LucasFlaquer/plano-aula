@@ -6,7 +6,7 @@ export const state = {
   planosAula: [],
   planoAula: {
     //
-  }
+  },
 }
 
 export const mutations = {
@@ -15,15 +15,15 @@ export const mutations = {
   },
   SET_PLANOAULA(state, plano) {
     state.planoAula = plano
-  }
+  },
 }
 
 export const actions = {
   async fetchByUser({ commit }) {
     const response = await api.get('/plano-aula', {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
     })
     commit('SET_PLANOS_AULA', response.data)
   },
@@ -31,13 +31,13 @@ export const actions = {
     try {
       const response = await api.post('/plano-aula', data, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       })
       console.log(response.data)
       commit('SET_PLANOAULA', response.data)
     } catch (error) {
       console.warn(error)
     }
-  }
+  },
 }
