@@ -9,7 +9,9 @@ export const state = {
     //
   },
   userLogged: {
-    //
+    username: '',
+    access_token: '',
+    name: '',
   },
 }
 
@@ -79,23 +81,42 @@ export const actions = {
         console.warn(error)
       })
   },
-  async makeLogin({ commit }, user) {
-    try {
-      const response = await api.post('/login', user)
-      const { name, logged_in_as: email } = response.data
-      commit('SET_USER_LOGGED', {
-        name,
-        email,
-      })
-      localStorage.setItem('token', response.data.access_token)
-      router.push({
-        name: 'Home',
-      })
-    } catch (error) {
-      console.warn(error.response)
-      if (error.response.status == 403 || error.response.status === 401)
-        return false
-    }
+  async makeLogin({ commit }, { email, password }) {
+    return new Promise((resolve, reject) => {
+      try {
+        api
+          .post('/login', { email, password })
+          .then((response) => {
+            console.log('user', response.data)
+            const { access_token, logged_in_as: email, name } = response.data
+            commit('SET_USER_LOGGED', { access_token, email, name })
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      } catch (error) {
+        console.warn(error)
+        reject(error)
+      }
+    })
+
+    // try {
+    //   const response = await api.post('/login', user)
+    //   const { name, logged_in_as: email } = response.data
+    //   commit('SET_USER_LOGGED', {
+    //     name,
+    //     email,
+    //   })
+    //   localStorage.setItem('token', response.data.access_token)
+    //   router.push({
+    //     name: 'Home',
+    //   })
+    // } catch (error) {
+    //   console.warn(error.response)
+    //   if (error.response.status == 403 || error.response.status === 401)
+    //     return false
+    // }
   },
   async Authenticate({ commit }) {
     try {

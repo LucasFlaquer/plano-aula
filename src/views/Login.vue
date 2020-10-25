@@ -1,15 +1,15 @@
 <template>
   <div class="login">
-    <v-progress-linear
-      indeterminate
-      color="yellow darken-2"
-      absolute
-      top
-      :active="sending"
-    ></v-progress-linear>
     <div class="login--body" :class="sending ? 'sending' : ''">
+      <v-progress-linear
+        indeterminate
+        color="yellow darken-2"
+        absolute
+        top
+        :active="sending"
+      ></v-progress-linear>
       <h1>Gerenciamento de Plano de Aula</h1>
-      <form @submit.prevent="submit" class="form">
+      <form @submit.prevent="submit" class="form" ref="form" novalidate>
         <template v-if="!newUser">
           <div class="form-group">
             <!-- <label for="">E-mail</label> -->
@@ -82,11 +82,21 @@
         <a href="#" @click.prevent="AddNewUser">login</a>
       </p>
     </div>
+    <v-snackbar v-model="errors">
+      Email ou senha inválidos
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="errors = false">
+          fechar
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import validaForm from '../functions/validaForm'
 export default {
   name: 'Login',
   data() {
@@ -98,19 +108,40 @@ export default {
       },
       newUser: false,
       sending: false,
+      errors: false,
     }
   },
   methods: {
     async submit() {
       this.sending = true
-      await this.$store.dispatch('userModule/makeLogin', this.user)
-      console.log('------- retorno da action para a view -----')
+      const form = this.$refs.form
+      if (form.checkValidity())
+        try {
+          const response = await this.handleLogin(this.user)
+          console.log(response)
+        } catch (error) {
+          console.warn(error)
+          // alert('erro')
+          this.resetForm()
+          this.errors = true
+        } finally {
+          this.sending = false
+        }
+      else validaForm(form)
+      //await this.$store.dispatch('userModule/makeLogin', this.user)
       //console.log(userState)
+    },
+    resetForm() {
+      this.errors = false
+      this.user.email = ''
+      this.user.password = ''
     },
     AddNewUser() {
       this.newUser = !this.newUser
     },
-    ...mapActions(['userModule/makeLogin']),
+    ...mapActions({
+      handleLogin: 'userModule/makeLogin',
+    }),
   },
 }
 </script>
