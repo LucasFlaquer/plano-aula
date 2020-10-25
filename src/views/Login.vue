@@ -1,12 +1,26 @@
 <template>
   <div class="login">
-    <v-progress-linear
-      indeterminate
-      color="yellow darken-2"
-      absolute
-      top
-      :active="sending"
-    ></v-progress-linear>
+    <v-card
+      elevation="2"
+      outlined
+      width="400"
+      :loading="sending"
+      class="login--body"
+    >
+      <h1>Gerenciamento de Plano de Aula</h1>
+      <v-form @submit.prevent="submit" class="form">
+        <template v-if="!newUser">
+          <v-input
+            :messages="['Messages']"
+            type="email"
+            v-model="user.email"
+            required
+          >
+            E-mail
+          </v-input>
+        </template>
+      </v-form>
+    </v-card>
     <div class="login--body" :class="sending ? 'sending' : ''">
       <h1>Gerenciamento de Plano de Aula</h1>
       <form @submit.prevent="submit" class="form">
