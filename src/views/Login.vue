@@ -1,5 +1,12 @@
 <template>
   <div class="login">
+    <v-progress-linear
+      indeterminate
+      color="yellow darken-2"
+      absolute
+      top
+      :active="sending"
+    ></v-progress-linear>
     <div class="login--body" :class="sending ? 'sending' : ''">
       <h1>Gerenciamento de Plano de Aula</h1>
       <form @submit.prevent="submit" class="form">
@@ -112,6 +119,7 @@ export default {
 .login {
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
