@@ -8,7 +8,7 @@
       class="login--body"
     >
       <v-card-title>
-        <h1>GERENCIAMENTO DE PLANO DE AULA</h1>
+        <h1>Artefactus</h1>
       </v-card-title>
       <v-card-text>
         <!-- Login -->
@@ -208,6 +208,7 @@ export default {
       font-weight: bolder;
       margin-bottom: 30px;
       word-break: break-word;
+      text-align: center;
     }
     form {
       margin: 0;
