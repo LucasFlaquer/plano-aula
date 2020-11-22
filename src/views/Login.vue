@@ -1,128 +1,157 @@
 <template>
   <div class="login">
     <v-card
+      :loading="sending"
       elevation="2"
       outlined
       width="400"
-      :loading="sending"
       class="login--body"
     >
-      <h1>Gerenciamento de Plano de Aula</h1>
-      <v-form @submit.prevent="submit" class="form">
-        <template v-if="!newUser">
-          <v-input
-            :messages="['Messages']"
-            type="email"
-            v-model="user.email"
-            required
-          >
-            E-mail
-          </v-input>
-        </template>
-      </v-form>
-    </v-card>
-    <div class="login--body" :class="sending ? 'sending' : ''">
-      <h1>Gerenciamento de Plano de Aula</h1>
-      <form @submit.prevent="submit" class="form">
-        <template v-if="!newUser">
-          <div class="form-group">
-            <!-- <label for="">E-mail</label> -->
-            <input
-              class="form-control"
-              type="email"
-              placeholder="E-mail"
+      <v-card-title>
+        <h1>GERENCIAMENTO DE PLANO DE AULA</h1>
+      </v-card-title>
+      <v-card-text>
+        <!-- Login -->
+        <v-form
+          ref="form"
+          class="form"
+          lazy-validation
+          v-model="valid"
+          v-if="!newUser"
+        >
+          <template>
+            <v-text-field
+              :rules="[rules.required, rules.email]"
+              label="E-mail"
               v-model="user.email"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <!-- <label for="">Senha</label> -->
-            <input
-              class="form-control"
+            ></v-text-field>
+            <v-text-field
+              :rules="[rules.required]"
+              label="Senha"
               type="password"
-              placeholder="Senha"
               v-model="user.password"
-              required
-            />
-          </div>
-          <button class="btn btn-dark">Entrar</button>
-        </template>
-        <template v-else>
-          <div class="form-group">
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Nome"
+            ></v-text-field>
+            <v-btn
+              :loading="sending"
+              :disabled="sending"
+              block
+              large
+              elevation="2"
+              color="secondary"
+              @click="submit"
+            >
+              Entrar
+            </v-btn>
+          </template>
+        </v-form>
+        <!-- Cadastro -->
+        <v-form ref="form" class="form" lazy-validation v-else v-model="valid">
+          <template>
+            <v-text-field
+              :rules="[rules.required]"
+              label="Nome completo"
               v-model="user.name"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <input
-              class="form-control"
-              type="email"
-              placeholder="E-mail"
+            ></v-text-field>
+            <v-text-field
+              :rules="[rules.required, rules.email]"
+              label="E-mail"
               v-model="user.email"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <input
-              class="form-control"
+            ></v-text-field>
+            <v-text-field
+              :rules="[rules.required, rules.password]"
+              label="Senha"
               type="password"
-              placeholder="Senha"
               v-model="user.password"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <input
-              class="form-control"
+            ></v-text-field>
+            <v-text-field
+              :rules="[rules.required, rules.password, rules.confirmPassword]"
+              label="Confirme a senha"
               type="password"
-              placeholder="Confirme a Senha"
-              v-model="user.confirmPassword"
-              required
-            />
-          </div>
-          <button class="btn btn-dark">Entrar</button>
-        </template>
-      </form>
-      <p class="login--subscribe" v-if="!newUser">
-        Ainda não é cadastrado? Crie sua conta
-        <a href="#" @click.prevent="AddNewUser">aqui</a>
-      </p>
-      <p class="login--subscribe" v-else>
-        Já possui conta? Faça o
-        <a href="#" @click.prevent="AddNewUser">login</a>
-      </p>
-    </div>
+            ></v-text-field>
+            <v-btn
+              :loading="sending"
+              :disabled="sending"
+              block
+              large
+              elevation="2"
+              color="secondary"
+              type="submit"
+              @click="submit"
+            >
+              Cadastrar
+            </v-btn>
+          </template>
+        </v-form>
+        <v-divider></v-divider>
+        <v-row align="center" justify="space-around">
+          <v-btn
+            v-if="!newUser"
+            :disabled="sending"
+            dark
+            elevation="2"
+            large
+            type="button"
+            @click="AddNewUser"
+          >
+            Criar nova conta
+          </v-btn>
+          <v-btn
+            v-else
+            :disabled="sending"
+            dark
+            elevation="2"
+            large
+            type="button"
+            @click="AddNewUser"
+          >
+            Já sou cadastrado
+          </v-btn>
+        </v-row>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import validateEmail from '../functions/validateEmail'
+
 export default {
   name: 'Login',
   data() {
     return {
+      valid: true,
       user: {
+        name: null,
         email: 'lucas.teste@teste.com',
         password: '123456',
-        name: null,
       },
       newUser: false,
       sending: false,
+      rules: {
+        required: (value) => !!value || 'Campo obrigatório.',
+        email: (value) => validateEmail(value) || 'Formato de email inválido.',
+        password: (v) => (v && v.length >= 6) || 'Mínimo de 6 caracteres.',
+        confirmPassword: (v) =>
+          v === this.user.password || 'As senhas precisam ser identicas.',
+      },
     }
   },
   methods: {
-    async submit() {
+    async submit(e) {
+      e.preventDefault()
+      await this.$refs.form.validate()
+      if (!this.valid) {
+        return
+      }
+
       this.sending = true
       await this.$store.dispatch('userModule/makeLogin', this.user)
       console.log('------- retorno da action para a view -----')
-      //console.log(userState)
     },
     AddNewUser() {
       this.newUser = !this.newUser
+      this.$refs.form.resetValidation()
     },
     ...mapActions(['userModule/makeLogin']),
   },
@@ -152,21 +181,18 @@ export default {
   }
   &--body {
     z-index: 1;
-    padding: 30px 30px 0;
     max-width: 400px;
     background-color: #fff;
     border-radius: 5px;
     h1 {
-      font-size: 40px;
+      font-size: 30px;
+      font-weight: bolder;
       margin-bottom: 30px;
+      word-break: break-word;
     }
     form {
-      margin-bottom: 30px;
-      .btn {
-        width: 100%;
-        // font-weight: bold;
-        text-transform: uppercase;
-      }
+      margin: 0;
+      padding: 0;
     }
     .form-control {
       text-align: left;
