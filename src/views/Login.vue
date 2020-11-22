@@ -109,6 +109,15 @@
         </v-row>
       </v-card-text>
     </v-card>
+
+    <v-snackbar v-model="error">
+      {{ errorMessage }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="red" text v-bind="attrs" @click="error = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -121,6 +130,8 @@ export default {
   data() {
     return {
       valid: true,
+      error: false,
+      errorMessage: '',
       user: {
         name: null,
         email: 'lucas.teste@teste.com',
@@ -140,14 +151,22 @@ export default {
   methods: {
     async submit(e) {
       e.preventDefault()
-      await this.$refs.form.validate()
-      if (!this.valid) {
-        return
-      }
+      try {
+        await this.$refs.form.validate()
+        if (!this.valid) {
+          return
+        }
+        this.sending = true
 
-      this.sending = true
-      await this.$store.dispatch('userModule/makeLogin', this.user)
-      console.log('------- retorno da action para a view -----')
+        await this.$store.dispatch('userModule/makeLogin', this.user)
+        console.log('------- retorno da action para a view -----')
+      } catch (err) {
+        console.warn(err)
+        this.error = true
+        this.errorMessage = 'Ocorreu um erro, tente novamente mais tarde.'
+      } finally {
+        this.sending = false
+      }
     },
     AddNewUser() {
       this.newUser = !this.newUser

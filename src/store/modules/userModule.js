@@ -80,22 +80,16 @@ export const actions = {
       })
   },
   async makeLogin({ commit }, user) {
-    try {
-      const response = await api.post('/login', user)
-      const { name, logged_in_as: email } = response.data
-      commit('SET_USER_LOGGED', {
-        name,
-        email,
-      })
-      localStorage.setItem('token', response.data.access_token)
-      router.push({
-        name: 'Home',
-      })
-    } catch (error) {
-      console.warn(error.response)
-      if (error.response.status == 403 || error.response.status === 401)
-        return false
-    }
+    const response = await api.post('/login', user)
+    const { name, logged_in_as: email } = response.data
+    commit('SET_USER_LOGGED', {
+      name,
+      email,
+    })
+    localStorage.setItem('token', response.data.access_token)
+    router.push({
+      name: 'Home',
+    })
   },
   async Authenticate({ commit }) {
     try {
