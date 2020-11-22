@@ -130,9 +130,13 @@ const routes = [
   },
 ]
 
+let base = process.env.BASE_URL
+if (process.env.NODE_ENV == 'production')
+  base = `${process.env.BASE_URL}/plano-aula/`
+
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: base,
   routes,
 })
 router.beforeEach(async (to, from, next) => {
